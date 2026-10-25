@@ -1,0 +1,51 @@
+{
+ "n": 48,
+ "fixed": 39,
+ "fixed_pct": 81.2,
+ "exact_restore": 32,
+ "plausible_not_exact": 7,
+ "gt_in_candidates_pct": 97.9,
+ "retriever_top1_pct": 83.3,
+ "ranker_top1_pct": 52.1,
+ "ranker_top5_pct": 70.8,
+ "patched_gt_function_pct": 81.2,
+ "status": {
+  "fixed": 39,
+  "not_fixed": 9
+ },
+ "mean_wall_s": 61.6,
+ "median_wall_s_fixed": 40.72,
+ "mean_rank_call_s": 1.38,
+ "mean_patch_call_s": 15.31,
+ "mean_turns": 2.88,
+ "cost_usd": 0.4833,
+ "cost_per_task_usd": 0.01007,
+ "cost_per_fix_usd": 0.01239,
+ "tokens": {
+  "prompt": 907607,
+  "completion": 296332
+ },
+ "by_repo": {
+  "toolz": {
+   "n": 12,
+   "fixed": 8,
+   "top1": 6
+  },
+  "more-itertools": {
+   "n": 12,
+   "fixed": 11,
+   "top1": 9
+  },
+  "boltons": {
+   "n": 12,
+   "fixed": 11,
+   "top1": 5
+  },
+  "sortedcontainers": {
+   "n": 12,
+   "fixed": 9,
+   "top1": 5
+  }
+ },
+ "generated": "2026-10-25 16:58"
+}

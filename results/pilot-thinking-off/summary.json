@@ -1,0 +1,41 @@
+{
+ "n": 6,
+ "fixed": 3,
+ "fixed_pct": 50.0,
+ "exact_restore": 2,
+ "plausible_not_exact": 1,
+ "gt_in_candidates_pct": 100.0,
+ "retriever_top1_pct": 50.0,
+ "ranker_top1_pct": 50.0,
+ "ranker_top5_pct": 66.7,
+ "patched_gt_function_pct": 50.0,
+ "status": {
+  "fixed": 3,
+  "not_fixed": 3
+ },
+ "mean_wall_s": 19.9,
+ "median_wall_s_fixed": 31.96,
+ "mean_rank_call_s": 1.23,
+ "mean_patch_call_s": 1.84,
+ "mean_turns": 3.83,
+ "cost_usd": 0.0282,
+ "cost_per_task_usd": 0.0047,
+ "cost_per_fix_usd": 0.0094,
+ "tokens": {
+  "prompt": 108196,
+  "completion": 2995
+ },
+ "by_repo": {
+  "toolz": {
+   "n": 3,
+   "fixed": 1,
+   "top1": 0
+  },
+  "more-itertools": {
+   "n": 3,
+   "fixed": 2,
+   "top1": 3
+  }
+ },
+ "generated": "2026-10-25 16:58"
+}

@@ -1,0 +1,35 @@
+{
+  "toolz": {
+    "url": "https://github.com/pytoolz/toolz.git",
+    "commit": "451af60dec590a6010e2babdbf391ea8f815122f",
+    "license": "BSD-3-Clause",
+    "root": "repos/toolz",
+    "package": "toolz",
+    "test_args": ["toolz/tests", "--deselect", "toolz/tests/test_package.py::test_has_version"]
+  },
+  "more-itertools": {
+    "url": "https://github.com/more-itertools/more-itertools.git",
+    "commit": "b21ec4ee8e139ebe297e2221980a694bebb69523",
+    "license": "MIT",
+    "root": "repos/more-itertools",
+    "package": "more_itertools",
+    "test_args": ["tests"]
+  },
+  "boltons": {
+    "url": "https://github.com/mahmoud/boltons.git",
+    "commit": "4e5faa3d7e4008d89e0d8bf1ea87b6d9a061a16d",
+    "license": "BSD-3-Clause",
+    "root": "repos/boltons",
+    "package": "boltons",
+    "test_args": ["tests"]
+  },
+  "sortedcontainers": {
+    "url": "https://github.com/grantjenks/python-sortedcontainers.git",
+    "commit": "3ac358631f58c1347f1d6d2d92784117db0f38ed",
+    "license": "Apache-2.0",
+    "root": "repos/sortedcontainers",
+    "package": "src/sortedcontainers",
+    "pytest_opts": ["-o", "pythonpath=src"],
+    "test_args": ["tests"]
+  }
+}
