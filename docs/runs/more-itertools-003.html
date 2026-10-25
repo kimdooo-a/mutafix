@@ -1,0 +1,232 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MutaFix run: more-itertools-003</title><style>
+:root{--bg:#fbfbf9;--fg:#1d1f21;--mute:#6a6f75;--line:#e3e3de;--card:#ffffff;--ok:#1f7a3f;--okbg:#e7f4ea;
+--bad:#a8321f;--badbg:#fbe9e5;--acc:#5b3fd1;--code:#f4f4f0;--add:#e6f4e8;--del:#fbe8e6}
+@media (prefers-color-scheme:dark){:root{--bg:#141517;--fg:#e6e6e3;--mute:#9a9ea3;--line:#2c2e31;--card:#1b1c1f;
+--ok:#6fcf8e;--okbg:#17301f;--bad:#f08a75;--badbg:#3a1d17;--acc:#a993ff;--code:#202226;--add:#173022;--del:#3a1d1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}.sub{color:var(--mute);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:24px}.kpi span{color:var(--mute);font-size:13px}
+.step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;border-top:1px solid var(--line);padding:14px 0}
+.step:first-child{border-top:0}.tag{font:600 12px/1 Consolas,"Cascadia Mono",Menlo,monospace;text-transform:uppercase;
+letter-spacing:.04em;color:var(--acc);padding-top:4px}.meta{color:var(--mute);font-size:13px}
+pre{background:var(--code);border-radius:8px;padding:10px 12px;overflow:auto;font:13px/1.45 Consolas,"Cascadia Mono",Menlo,monospace;margin:8px 0}
+.dl{display:block}.thought{white-space:pre-wrap}.d-add{background:var(--add);display:block}.d-del{background:var(--del);display:block}.d-hdr{color:var(--mute);display:block}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}.neu{background:var(--code);color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:13px}td code,li code{font:12.5px Consolas,"Cascadia Mono",Menlo,monospace}
+ol.cands{margin:6px 0;padding-left:22px}ol.cands li{margin:2px 0}.gt{font-weight:700}
+details summary{cursor:pointer;color:var(--mute);font-size:13px}a{color:var(--acc)}
+.wrap{overflow-x:auto}
+</style></head><body><main><h1>MutaFix run: more-itertools-003</h1><p class="sub">ranker <code>nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B</code> · patcher <code>nvidia/nemotron-3-super-120b-a12b</code> · via Nebius Token Factory</p><div class="kpis"><div class="kpi"><b><span class="pill bad">not fixed</span></b><span>outcome</span></div><div class="kpi"><b>136s</b><span>wall time</span></div><div class="kpi"><b>7</b><span>model calls</span></div><div class="kpi"><b>$0.0338</b><span>API cost</span></div></div><div class="card"><b>Benchmark ground truth</b> (hidden from the agent)<br><span class="meta">more_itertools/recipes.py:690 · operator BINOP · function <code>more_itertools/recipes.py::nth_combination</code></span><pre><span class="d-del">- c, n = c * ((n + r)) // n, n - 1   (injected bug)</span><span class="d-add">+ c, n = c * (n - r) // n, n - 1   (original)</span></pre>retriever rank 1 of 20 · ranker position 1 · patched the right function <span class="pill bad">no</span> · exact restore <span class="pill bad">no</span></div><h2>Trace</h2><div class="card"><div class="step"><div class="tag">reproduce<div class="meta">+12.49s</div></div><div>2 failing test(s) · 2 failed, 766 passed · 12.49s<details><summary>failing tests and errors</summary><pre>tests/test_recipes.py::NthCombinationTests::test_basic
+tests/test_recipes.py::NthCombinationTests::test_long</pre><b>tests/test_recipes.py::NthCombinationTests::test_basic</b><pre>E   ZeroDivisionError: integer division or modulo by zero</pre><b>tests/test_recipes.py::NthCombinationTests::test_long</b><pre>E   AssertionError: Tuples differ: (2, 9, 22, 168) != (2, 12, 35, 126)
+E   
+E   First differing element 1:
+E   9
+E   12
+E   
+E   - (2, 9, 22, 168)
+E   + (2, 12, 35, 126)</pre></details></div></div><div class="step"><div class="tag">trace<div class="meta">+19.7s</div></div><div>re-ran 1 test file(s) with the trace plugin: 2 failing and 146 passing tests, 1 library functions ran in a failing test · 7.15s<br><span class="meta">tests/test_recipes.py</span></div></div><div class="step"><div class="tag">retrieve<div class="meta">+19.7s</div></div><div>280 functions indexed, 5 reachable from <code>tests/test_recipes.py::NthCombinationTests::test_basic</code> in the static call graph. Kept 20 candidates, ranked by spectrum score (Ochiai), call graph and BM25 break ties.<details><summary>candidates in retriever order</summary><ol class="cands"><li class="gt"><code>more_itertools/recipes.py::nth_combination</code> <span class="meta">call depth 1 · Ochiai 0.71 (failing 2, passing 2)</span></li><li class=""><code>more_itertools/more.py::numeric_range.index</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::numeric_range._index_near</code> <span class="meta">call depth 2 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::callback_iter.result</code> <span class="meta">call depth 2 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::numeric_range._len</code> <span class="meta">call depth 3 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::combination_index</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::combination_with_replacement_index</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::nth_combination_with_replacement</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::numeric_range.__init__</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::nth_permutation</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 7)</span></li><li class=""><code>more_itertools/recipes.py::random_combination</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 2)</span></li><li class=""><code>more_itertools/more.py::only</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/recipes.py::is_prime</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 6)</span></li><li class=""><code>more_itertools/recipes.py::random_combination_with_replacement</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 2)</span></li><li class=""><code>more_itertools/more.py::distinct_combinations</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/recipes.py::grouper</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 6)</span></li><li class=""><code>more_itertools/more.py::nth_product</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/more.py::one</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>more_itertools/recipes.py::powerset</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 1)</span></li><li class=""><code>more_itertools/more.py::nth_or_last</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li></ol></details></div></div><div class="step"><div class="tag">rank<div class="meta">+19.7s</div></div><div><span class="meta">spectrum order kept (no model call)</span><ol class="cands"><li class="gt"><code>more_itertools/recipes.py::nth_combination</code></li><li class=""><code>more_itertools/more.py::numeric_range.index</code></li><li class=""><code>more_itertools/more.py::numeric_range._index_near</code></li><li class=""><code>more_itertools/more.py::callback_iter.result</code></li><li class=""><code>more_itertools/more.py::numeric_range._len</code></li></ol></div></div><div class="step"><div class="tag">read<div class="meta">+21.3s</div></div><div><span class="meta">turn 1 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2669 in / 82 out · 1.6s · $0.00018</span><p>read <code>more_itertools/recipes.py::nth_combination</code> </p><p>The failing tests involve nth_combination, and the error message mentions ZeroDivisionError, which likely occurs in the arithmetic of the nth_combination function. This candidate function contains division operations that could cause a ZeroDivisionError when r is 0 or when n becomes 0 during iteration.</p></div></div><div class="step"><div class="tag">patch<div class="meta">+23.41s</div></div><div><span class="meta">turn 2 · NVIDIA-Nemotron-3-Nano-30B-A3B · 3273 in / 135 out · 1.76s · $0.00023</span><p>The loop condition `while r:` can lead to a ZeroDivisionError when r becomes 0, because the subsequent line `c, n, r = c * r // n, n - 1, r - 1` involves division by `n`, which could be 0. Changing the condition to `while r &gt; 0:` ensures the loop only continues when r is positive, preventing the division by zero issue.</p><pre class="diff"><span class="dl d-hdr">--- a/more_itertools/recipes.py</span><span class="dl d-hdr">+++ b/more_itertools/recipes.py</span><span class="dl d-hdr">@@ -684,5 +684,5 @@</span><span class="dl "> </span><span class="dl ">     result = []</span><span class="dl d-del">-    while r:</span><span class="dl d-add">+    while r &gt; 0:</span><span class="dl ">         c, n, r = c * r // n, n - 1, r - 1</span><span class="dl ">         while index &gt;= c:</span></pre><p>tests: <span class="pill bad">2 failing (target tests)</span> <span class="meta">2 failed</span></p><pre>tests/test_recipes.py::NthCombinationTests::test_basic
+tests/test_recipes.py::NthCombinationTests::test_long</pre></div></div><div class="step"><div class="tag">read<div class="meta">+44.33s</div></div><div><span class="meta">turn 3 · nemotron-3-super-120b-a12b · 7218 in / 4159 out · 20.919999999999998s · $0.00591</span><p>read <code>more_itertools/recipes.py::nth_combination</code> </p><p>The patch I attempted did not resolve the issue. The tests are still failing with both ZeroDivisionError and incorrect results. I need to re-examine the function logic more carefully, particularly the arithmetic updates in the loop.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to analyze the algorithm. The function attempts to compute the nth combination using combinatorial number system. There&#x27;s a known algorithm:
+
+Given n choose c combinations, we want the index-th combination (0-indexed). We iterate over positions selecting elements.
+
+Standard algorithm (from Knuth?): For each position i from 0 to r-1, we find the smallest element such that C(n - chosen_i - 1, r - i - 1) &gt; index, etc.
+
+But here they have a different approach: They maintain variables c (remaining combinations?), n (remaining pool size?), r (remaining to choose?). Let&#x27;s trace.
+
+Initialize: pool = tuple(iterable), n = len(pool), c = comb(n, r). Then while r: ... At each iteration:
+
+c, n, r = c * r // n, n - 1, r - 1
+
+Then while index &gt;= c: index -= c; c, n = c * ((n + r)) // n, n - 1
+
+Then result.append(pool[-1 - n])
+
+Let&#x27;s test with small example to see where division by zero occurs.
+
+Suppose iterable = &#x27;abcdefg&#x27; (length 7), r=4, index from 0..C(7,4)-1 = 34.
+
+First iteration: n=7, r=4, c=C(7,4)=35.
+
+Compute c, n, r = c * r // n, n-1, r-1 =&gt; c = 35*4//7 = 140//7=20, n=6, r=3.
+
+Now while index &gt;= c: subtract c etc.
+
+After that, append pool[-1 - n] where n is now 6? Actually after the inner while loop, n may have changed? Wait: In inner while loop, they update c, n = c * ((n + r)) // n, n - 1. That changes n as well.
+
+This algorithm seems off.
+
+Better to look up known implementation of nth_combination in more-itertools. I recall that the recipe uses the &quot;combinatorial number </pre></details></div></div><div class="step"><div class="tag">patch<div class="meta">+66.92s</div></div><div><span class="meta">turn 4 · nemotron-3-super-120b-a12b · 8388 in / 4387 out · 22.25s · $0.00646</span><p>The original code had an error in the inner loop where `n` was being decremented (`n - 1`) during the update of `c` and `n`. This caused `n` to become too small too quickly, leading to a ZeroDivisionError when `n` reached 0 in subsequent iterations. The fix removes the decrement of `n` in the inner loop, preserving the correct value of `n` for the next iteration of the outer loop. This aligns with the standard algorithm for computing combinations by index, where only `c` is updated in the inner loop while `n` remains constant during that phase.</p><pre class="diff"><span class="dl d-hdr">--- a/more_itertools/recipes.py</span><span class="dl d-hdr">+++ b/more_itertools/recipes.py</span><span class="dl d-hdr">@@ -688,5 +688,5 @@</span><span class="dl ">         while index &gt;= c:</span><span class="dl ">             index -= c</span><span class="dl d-del">-            c, n = c * ((n + r)) // n, n - 1</span><span class="dl d-add">+            c = c * (n + r) // n</span><span class="dl ">         result.append(pool[-1 - n])</span><span class="dl "> </span></pre><p>tests: <span class="pill bad">2 failing (target tests)</span> <span class="meta">2 failed</span></p><pre>tests/test_recipes.py::NthCombinationTests::test_basic
+tests/test_recipes.py::NthCombinationTests::test_long</pre><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to analyze the algorithm. It&#x27;s trying to compute the nth combination using combinatorial number system.
+
+Standard algorithm: Given n choose c total combinations, we want the index-th combination (0-indexed). We iterate over positions selecting each element.
+
+Pseudo:
+
+def nth_combination(iterable, r, index):
+    pool = tuple(iterable)
+    n = len(pool)
+    if r &lt; 0 or r &gt; n: raise ValueError
+    c = comb(n, r)
+    if index &lt; 0: index += c
+    if not 0 &lt;= index &lt; c: raise IndexError
+    result = []
+    for i in range(r):
+        # number of combinations remaining after choosing current element?
+        # Actually we consider each position: for the first element, we decide how many to skip.
+        # Let&#x27;s denote we are choosing the i-th element (0-indexed) from the remaining pool.
+        # At step i, we have n-i elements left, need to choose r-i.
+        # The number of combinations if we skip the first element is C(n-i-1, r-i-1)? Wait typical algorithm:
+        # For each position, we find the largest v such that C(n-v-1, r-k-1) &lt;= index? Hmm.
+
+Better recall known implementation from more-itertools: I think they used an algorithm similar to:
+
+    while r:
+        c, n, r = c * r // n, n - 1, r - 1
+        while index &gt;= c:
+            index -= c
+            c, n = c * (n + r) // n, n - 1
+        result.append(pool[-1 - n])
+
+But something seems off. Let&#x27;s derive.
+
+We have total combos C(n, r). Represent index in combinadic.
+
+Algorithm to unrank combination:
+
+Initialize</pre></details></div></div><div class="step"><div class="tag">patch<div class="meta">+90.95s</div></div><div><span class="meta">turn 5 · nemotron-3-super-120b-a12b · 9490 in / 4377 out · 24.03s · $0.00679</span><p>patch on <code>more_itertools/recipes.py::nth_combination</code> rejected: `old` occurs 0 times in the candidate (must be exactly once); copy whole lines exactly as shown, without the line-number gutter</p><p>The previous attempts failed because the inner loop&#x27;s update to `c` was incorrect. The correct update should account for the changing values of `n` and `r` in the combinatorial computation. The expression `c * (n + r + 1) // (n + 1)` correctly updates the combination count for the next position in the sequence, reflecting the number of combinations that skip the current element. This follows the standard iterative method for computing the nth combination, where we determine each element by seeing how many combinations are skipped by choosing a particular value at each position.</p><details><summary>the edit it proposed</summary><pre>        while r:
+            c, n, r = c * r // n, n - 1, r - 1
+            while index &gt;= c:
+                index -= c
+                c = c * (n + r) // n
+            result.append(pool[-1 - n])</pre><pre>        while r:
+            c, n, r = c * r // n, n - 1, r - 1
+            while index &gt;= c:
+                index -= c
+                c = c * (n + r + 1) // (n + 1)
+            result.append(pool[-1 - n])</pre></details><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have two issues now: the basic test shows we&#x27;re getting the wrong combination (off by one at the end) and the long test is completely off.
+
+Let me reexamine the algorithm. The function is supposed to compute the index-th combination (0-indexed) of length r from the pool.
+
+Looking at the current code:
+
+```
+     result = []
+     while r:
+         c, n, r = c * r // n, n - 1, r - 1
+         while index &gt;= c:
+             index -= c
+             c, n = c * ((n + r)) // n, n - 1
+         result.append(pool[-1 - n])
+```
+
+There&#x27;s a known algorithm for this. Let me recall how it works:
+
+We want to find the index-th combination of r elements from n elements.
+
+The idea is:
+1. For each position in the combination (from first to last), we determine which element goes there.
+2. The number of combinations that start with a particular element can be calculated using combinations of the remaining elements.
+
+Actually, looking at the original code more carefully, I think the issue might be in how we&#x27;re updating variables.
+
+Let me look at a correct implementation of nth_combination. I recall that the &quot;combinadic&quot; representation is used.
+
+Actually, let me think about the algorithm step by step for a small case.
+
+Suppose we have n=7 (abcdefg), r=4, and we want index=0 (first combination).
+
+The first combination should be (a,b,c,d).
+
+Let&#x27;s trace through:
+- pool = (&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;,&#x27;e&#x27;,&#x27;f&#x27;,&#x27;g&#x27;), n=7, r=4
+- c = comb(7,4) = 35
+
+First iteration of while r (r=4):
+  c, n, r = c * r // n, n - 1, r - 1
+</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+115.38s</div></div><div><span class="meta">turn 6 · nemotron-3-super-120b-a12b · 10156 in / 4169 out · 24.42s · $0.00680</span><p>read <code>more_itertools/recipes.py::nth_combination</code> </p><p>My previous patch attempt failed because the `old` string I provided did not exactly match the source code. I need to read the current version of the function again to ensure I copy the lines exactly as they appear, including proper indentation and spacing, before attempting another patch.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to provide old text exactly as it appears in the candidate. Let&#x27;s look at the current candidate content again:
+
+```
+  662 | def nth_combination(iterable, r, index):
+  663 |     &quot;&quot;&quot;Equivalent to ``list(combinations(iterable, r))[index]``.
+  664 |
+  665 |     The subsequences of *iterable* that are of length *r* can be ordered
+  666 |     lexicographically. :func:`nth_combination` computes the subsequence at
+  667 |     sort position *index* directly, without computing the previous
+  668 |     subsequences.
+  669 |
+  670 |         &gt;&gt;&gt; nth_combination(range(5), 3, 5)
+  671 |         (0, 3, 4)
+  672 |
+  673 |     ``ValueError`` will be raised If *r* is negative.
+  674 |     ``IndexError`` will be raised if the given *index* is invalid.
+  675 |     &quot;&quot;&quot;
+  676 |     pool = tuple(iterable)
+  677 |     n = len(pool)
+  678 |     c = comb(n, r)
+  679 |
+  680 |     if index &lt; 0:
+  681 |         index += c
+  682 |     if not 0 &lt;= index &lt; c:
+  683 |         raise IndexError
+  684 |
+  685 |     result = []
+  686 |     while r:
+  687 |         c, n, r = c * r // n, n - 1, r - 1
+  688 |         while index &gt;= c:
+  689 |             index -= c
+  690 |             c, n = c * ((n + r)) // n, n - 1
+  691 |         result.append(pool[-1 - n])
+  692 |
+  693 |     return tuple(result)
+```
+
+We need to replace a block. The previous attempt had old text that didn&#x27;t match exactly. Let&#x27;s try to fix the algorithm correctly.
+
+Looking at the failing tests:
+- test_basic: expected (&#x27;a&#x27;,&#x27;b&#x27;,&#x27;c&#x27;,&#x27;d&#x27;) bu</pre></details></div></div><div class="step"><div class="tag">patch<div class="meta">+135.6s</div></div><div><span class="meta">turn 7 · nemotron-3-super-120b-a12b · 11346 in / 4429 out · 19.87s · $0.00739</span><p>The error in the function lies in the inner loop where both `c` and `n` are being updated incorrectly. Specifically, the line `c, n = c * ((n + r)) // n, n - 1` wrongly decrements `n` during the inner loop, which leads to `n` becoming 0 too soon and causes a ZeroDivisionError in subsequent iterations. The fix removes the update to `n` in the inner loop, keeping only the update to `c` as `c = c * (n + r) // n`. This matches the correct algorithm for computing the nth combination, where in the inner loop we only adjust the combination count `c` based on the current `n` and `r`, while `n` is only decremented in the outer loop after selecting an element.</p><pre class="diff"><span class="dl d-hdr">--- a/more_itertools/recipes.py</span><span class="dl d-hdr">+++ b/more_itertools/recipes.py</span><span class="dl d-hdr">@@ -688,5 +688,5 @@</span><span class="dl ">         while index &gt;= c:</span><span class="dl ">             index -= c</span><span class="dl d-del">-            c, n = c * ((n + r)) // n, n - 1</span><span class="dl d-add">+            c = c * (n + r) // n</span><span class="dl ">         result.append(pool[-1 - n])</span><span class="dl "> </span></pre><p>tests: <span class="pill bad">2 failing (target tests)</span> <span class="meta">2 failed</span></p><pre>tests/test_recipes.py::NthCombinationTests::test_basic
+tests/test_recipes.py::NthCombinationTests::test_long</pre><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to fix the nth_combination function. The tests show two issues: ZeroDivisionError and wrong results.
+
+Looking at the code:
+
+Line 687: c, n, r = c * r // n, n - 1, r - 1
+Line 690: c, n = c * ((n + r)) // n, n - 1
+
+The ZeroDivisionError likely occurs when n becomes 0. Initially n = len(pool). In the loop, we decrement n by 1 each time through the outer loop (via n - 1) and also in the inner loop (via n - 1). So n is decremented twice per outer iteration? Actually, let&#x27;s trace:
+
+Outer loop: while r:
+   First, we do: c, n, r = c * r // n, n - 1, r - 1
+   Then we have an inner while: while index &gt;= c:
+        index -= c
+        c, n = c * ((n + r)) // n, n - 1
+   Then we append pool[-1 - n]
+
+So in each outer iteration, n is decremented by 1 in the first assignment, and then potentially multiple times in the inner loop (each time decrementing by 1). This seems wrong.
+
+Standard algorithm for nth combination (lexicographic order) is something like:
+
+def nth_combination(iterable, r, index):
+    pool = tuple(iterable)
+    n = len(pool)
+    if index &lt; 0 or index &gt;= comb(n, r):
+        raise IndexError
+    result = []
+    while r:
+        c = comb(n-1, r-1)   # number of combinations that include the first element
+        if index &lt; c:
+            result.append(pool[0])
+            pool = pool[1:]
+            n -= 1
+            r -= 1
+        else:
+            index -= c
+            pool = pool[1:]
+            n -= 1
+    return tuple(result)
+
+But we want to avoid computing comb r</pre></details></div></div></div></main></body></html>

@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MutaFix run: boltons-006</title><style>
+:root{--bg:#fbfbf9;--fg:#1d1f21;--mute:#6a6f75;--line:#e3e3de;--card:#ffffff;--ok:#1f7a3f;--okbg:#e7f4ea;
+--bad:#a8321f;--badbg:#fbe9e5;--acc:#5b3fd1;--code:#f4f4f0;--add:#e6f4e8;--del:#fbe8e6}
+@media (prefers-color-scheme:dark){:root{--bg:#141517;--fg:#e6e6e3;--mute:#9a9ea3;--line:#2c2e31;--card:#1b1c1f;
+--ok:#6fcf8e;--okbg:#17301f;--bad:#f08a75;--badbg:#3a1d17;--acc:#a993ff;--code:#202226;--add:#173022;--del:#3a1d1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}.sub{color:var(--mute);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:24px}.kpi span{color:var(--mute);font-size:13px}
+.step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;border-top:1px solid var(--line);padding:14px 0}
+.step:first-child{border-top:0}.tag{font:600 12px/1 Consolas,"Cascadia Mono",Menlo,monospace;text-transform:uppercase;
+letter-spacing:.04em;color:var(--acc);padding-top:4px}.meta{color:var(--mute);font-size:13px}
+pre{background:var(--code);border-radius:8px;padding:10px 12px;overflow:auto;font:13px/1.45 Consolas,"Cascadia Mono",Menlo,monospace;margin:8px 0}
+.dl{display:block}.thought{white-space:pre-wrap}.d-add{background:var(--add);display:block}.d-del{background:var(--del);display:block}.d-hdr{color:var(--mute);display:block}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}.neu{background:var(--code);color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:13px}td code,li code{font:12.5px Consolas,"Cascadia Mono",Menlo,monospace}
+ol.cands{margin:6px 0;padding-left:22px}ol.cands li{margin:2px 0}.gt{font-weight:700}
+details summary{cursor:pointer;color:var(--mute);font-size:13px}a{color:var(--acc)}
+.wrap{overflow-x:auto}
+</style></head><body><main><h1>MutaFix run: boltons-006</h1><p class="sub">ranker <code>nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B</code> · patcher <code>nvidia/nemotron-3-super-120b-a12b</code> · via Nebius Token Factory</p><div class="kpis"><div class="kpi"><b><span class="pill ok">fixed</span></b><span>outcome</span></div><div class="kpi"><b>21s</b><span>wall time</span></div><div class="kpi"><b>3</b><span>model calls</span></div><div class="kpi"><b>$0.0021</b><span>API cost</span></div></div><div class="card"><b>Benchmark ground truth</b> (hidden from the agent)<br><span class="meta">boltons/statsutils.py:353 · operator CONST · function <code>boltons/statsutils.py::Stats._calc_variance</code></span><pre><span class="d-del">- return mean(self._get_pow_diffs(3))   (injected bug)</span><span class="d-add">+ return mean(self._get_pow_diffs(2))   (original)</span></pre>retriever rank 2 of 20 · ranker position 2 · patched the right function <span class="pill ok">yes</span> · exact restore <span class="pill bad">no</span></div><h2>Trace</h2><div class="card"><div class="step"><div class="tag">reproduce<div class="meta">+2.96s</div></div><div>2 failing test(s) · 2 failed, 523 passed · 2.96s<details><summary>failing tests and errors</summary><pre>tests/test_statsutils.py::test_stats_basic
+tests/test_statsutils.py::test_pearson_type_covers_kappa_ge_zero</pre><b>tests/test_statsutils.py::test_stats_basic</b><pre>E   assert 0.0 == 5.77
+E    +  where 0.0 = round(0.0, 2)
+E    +    where 0.0 = &lt;boltons.statsutils.Stats object at 0x0000027EFBB64980&gt;.std_dev</pre><b>tests/test_statsutils.py::test_pearson_type_covers_kappa_ge_zero</b><pre>E   AttributeError: &#x27;Stats&#x27; object has no attribute &#x27;_pearson_type&#x27;. Did you mean: &#x27;pearson_type&#x27;?
+E   AttributeError: &#x27;Stats&#x27; object has no attribute &#x27;_skewness&#x27;. Did you mean: &#x27;skewness&#x27;?
+E   TypeError: &#x27;&gt;&#x27; not supported between instances of &#x27;complex&#x27; and &#x27;int&#x27;</pre></details></div></div><div class="step"><div class="tag">trace<div class="meta">+3.4s</div></div><div>re-ran 1 test file(s) with the trace plugin: 2 failing and 3 passing tests, 9 library functions ran in a failing test · 0.31s<br><span class="meta">tests/test_statsutils.py</span></div></div><div class="step"><div class="tag">retrieve<div class="meta">+3.4s</div></div><div>923 functions indexed, 36 reachable from <code>tests/test_statsutils.py::test_stats_basic</code> in the static call graph. Kept 20 candidates, ranked by spectrum score (Ochiai), call graph and BM25 break ties.<details><summary>candidates in retriever order</summary><ol class="cands"><li class=""><code>boltons/statsutils.py::Stats._calc_std_dev</code> <span class="meta">call depth - · Ochiai 1.00 (failing 2, passing 0)</span></li><li class="gt"><code>boltons/statsutils.py::Stats._calc_variance</code> <span class="meta">call depth - · Ochiai 1.00 (failing 2, passing 0)</span></li><li class=""><code>boltons/statsutils.py::Stats._calc_mean</code> <span class="meta">call depth - · Ochiai 1.00 (failing 2, passing 0)</span></li><li class=""><code>boltons/statsutils.py::Stats._get_pow_diffs</code> <span class="meta">call depth - · Ochiai 1.00 (failing 2, passing 0)</span></li><li class=""><code>boltons/statsutils.py::_get_conv_func.&lt;locals&gt;.stats_helper</code> <span class="meta">call depth - · Ochiai 0.82 (failing 2, passing 1)</span></li><li class=""><code>boltons/statsutils.py::Stats._calc_skewness</code> <span class="meta">call depth - · Ochiai 0.71 (failing 1, passing 0)</span></li><li class=""><code>boltons/statsutils.py::Stats.__init__</code> <span class="meta">call depth 1 · Ochiai 0.63 (failing 2, passing 3)</span></li><li class=""><code>boltons/statsutils.py::_StatsProperty.__get__</code> <span class="meta">call depth 2 · Ochiai 0.63 (failing 2, passing 3)</span></li><li class=""><code>boltons/statsutils.py::Stats._calc_pearson_type</code> <span class="meta">call depth - · Ochiai 0.50 (failing 1, passing 1)</span></li><li class=""><code>boltons/statsutils.py::Stats.__len__</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/statsutils.py::Stats.__iter__</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/ioutils.py::SpooledIOBase.len</code> <span class="meta">call depth 2 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/ioutils.py::SpooledBytesIO.len</code> <span class="meta">call depth 2 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/ioutils.py::SpooledStringIO.len</code> <span class="meta">call depth 2 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/statsutils.py::_StatsProperty.__init__</code> <span class="meta">call depth 2 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/ioutils.py::MultiFileReader.seek</code> <span class="meta">call depth 3 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/iterutils.py::partition</code> <span class="meta">call depth 3 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/fileutils.py::DummyFile.fileno</code> <span class="meta">call depth 3 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/fileutils.py::DummyFile.read</code> <span class="meta">call depth 3 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/fileutils.py::DummyFile.seek</code> <span class="meta">call depth 3 · Ochiai 0.00 (failing 0, passing 0)</span></li></ol></details></div></div><div class="step"><div class="tag">rank<div class="meta">+3.4s</div></div><div><span class="meta">spectrum order kept (no model call)</span><ol class="cands"><li class=""><code>boltons/statsutils.py::Stats._calc_std_dev</code></li><li class="gt"><code>boltons/statsutils.py::Stats._calc_variance</code></li><li class=""><code>boltons/statsutils.py::Stats._calc_mean</code></li><li class=""><code>boltons/statsutils.py::Stats._get_pow_diffs</code></li><li class=""><code>boltons/statsutils.py::_get_conv_func.&lt;locals&gt;.stats_helper</code></li></ol></div></div><div class="step"><div class="tag">read<div class="meta">+5.24s</div></div><div><span class="meta">turn 1 · NVIDIA-Nemotron-3-Nano-30B-A3B · 1824 in / 93 out · 1.84s · $0.00013</span><p>read <code>boltons/statsutils.py::Stats._calc_variance</code> </p><p>The test failure shows an unexpected 0.0 for std_dev when it should be 5.77, and the _calc_std_dev method depends on _calc_variance. The _calc_variance method has a suspicious &#x27;global mean&#x27; line that likely causes mean to be undefined, leading to incorrect variance and subsequently std_dev.</p></div></div><div class="step"><div class="tag">patch<div class="meta">+8.5s</div></div><div><span class="meta">turn 2 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2100 in / 230 out · 3.27s · $0.00018</span><p>patch on <code>boltons/statsutils.py::Stats._calc_variance</code> rejected: `old` occurs 0 times in the candidate (must be exactly once); copy whole lines exactly as shown, without the line-number gutter</p><p>The &#x27;global mean&#x27; line is unnecessary and causes issues; the mean method is already available as an instance method, so we can directly use self.mean to compute the variance correctly.</p><details><summary>the edit it proposed</summary><pre>    def _calc_variance(self):
+        &quot;&quot;&quot;
+        Variance is the average of the squares of the difference between
+        each value and the mean.
+
+        &gt;&gt;&gt; variance(range(97))
+        784.0
+        &quot;&quot;&quot;
+        global mean  # defined elsewhere in this file
+        return mean(self._get_pow_diffs(3))</pre><pre>    def _calc_variance(self):
+        &quot;&quot;&quot;
+        Variance is the average of the squares of the difference between
+        each value and the mean.
+
+        &gt;&gt;&gt; variance(range(97))
+        784.0
+        &quot;&quot;&quot;
+        return mean(self._get_pow_diffs(3))</pre></details></div></div><div class="step"><div class="tag">patch<div class="meta">+20.51s</div></div><div><span class="meta">turn 3 · nemotron-3-super-120b-a12b · 2382 in / 1224 out · 8.35s · $0.00182</span><p>Remove erroneous global mean line and fix power from 3 to 2 to compute variance as average of squared differences.</p><pre class="diff"><span class="dl d-hdr">--- a/boltons/statsutils.py</span><span class="dl d-hdr">+++ b/boltons/statsutils.py</span><span class="dl d-hdr">@@ -350,6 +350,5 @@</span><span class="dl ">         784.0</span><span class="dl ">         &quot;&quot;&quot;</span><span class="dl d-del">-        global mean  # defined elsewhere in this file</span><span class="dl d-del">-        return mean(self._get_pow_diffs(3))</span><span class="dl d-add">+        return mean(self._get_pow_diffs(2))</span><span class="dl ">     variance = _StatsProperty(&#x27;variance&#x27;, _calc_variance)</span><span class="dl "> </span></pre><p>tests: <span class="pill ok">all tests pass</span> <span class="meta">525 passed</span></p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to provide exact old string as appears in the candidate. Let&#x27;s view the candidate again:
+
+Lines 344-353:
+
+```
+  344 |     def _calc_variance(self):
+  345 |         &quot;&quot;&quot;\
+  346 |         Variance is the average of the squares of the difference between
+  347 |         each value and the mean.
+  348 | 
+  349 |         &gt;&gt;&gt; variance(range(97))
+  350 |         784.0
+  351 |         &quot;&quot;&quot;
+  352 |         global mean  # defined elsewhere in this file
+  353 |         return mean(self._get_pow_diffs(3))
+```
+
+Note there is a backslash after the opening triple quotes? Actually line 345: `        \&quot;\&quot;\&quot;\\`? In the display we saw:
+
+```
+  344 |     def _calc_variance(self):
+  345 |         &quot;&quot;&quot;\
+  346 |         Variance is the average of the squares of the difference between
+  347 |         each value and the mean.
+  348 | 
+  349 |         &gt;&gt;&gt; variance(range(97))
+  350 |         784.0
+  351 |         &quot;&quot;&quot;
+  352 |         global mean  # defined elsewhere in this file
+  353 |         return mean(self._get_pow_diffs(3))
+```
+
+So the string includes a backslash at end of line 345. We need to copy exactly, including indentation spaces. Let&#x27;s construct the old string exactly:
+
+&quot;    def _calc_variance(self):\n        \&quot;\&quot;\&quot;\\\n        Variance is the average of the squares of the difference between\n        each value and the mean.\n\n        &gt;&gt;&gt; variance(range(97))\n        784.0\n        \&quot;\&quot;\&quot;\n        global mean  # defined elsewhere in this file\n        return mean(self._get_pow_diffs(3))&quot;</pre></details></div></div></div><h2>Final patch</h2><pre class="diff"><span class="dl d-hdr">--- a/boltons/statsutils.py</span><span class="dl d-hdr">+++ b/boltons/statsutils.py</span><span class="dl d-hdr">@@ -350,6 +350,5 @@</span><span class="dl ">         784.0</span><span class="dl ">         &quot;&quot;&quot;</span><span class="dl d-del">-        global mean  # defined elsewhere in this file</span><span class="dl d-del">-        return mean(self._get_pow_diffs(3))</span><span class="dl d-add">+        return mean(self._get_pow_diffs(2))</span><span class="dl ">     variance = _StatsProperty(&#x27;variance&#x27;, _calc_variance)</span><span class="dl "> </span></pre></main></body></html>

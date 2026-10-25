@@ -1,0 +1,171 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MutaFix run: boltons-002</title><style>
+:root{--bg:#fbfbf9;--fg:#1d1f21;--mute:#6a6f75;--line:#e3e3de;--card:#ffffff;--ok:#1f7a3f;--okbg:#e7f4ea;
+--bad:#a8321f;--badbg:#fbe9e5;--acc:#5b3fd1;--code:#f4f4f0;--add:#e6f4e8;--del:#fbe8e6}
+@media (prefers-color-scheme:dark){:root{--bg:#141517;--fg:#e6e6e3;--mute:#9a9ea3;--line:#2c2e31;--card:#1b1c1f;
+--ok:#6fcf8e;--okbg:#17301f;--bad:#f08a75;--badbg:#3a1d17;--acc:#a993ff;--code:#202226;--add:#173022;--del:#3a1d1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}.sub{color:var(--mute);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:24px}.kpi span{color:var(--mute);font-size:13px}
+.step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;border-top:1px solid var(--line);padding:14px 0}
+.step:first-child{border-top:0}.tag{font:600 12px/1 Consolas,"Cascadia Mono",Menlo,monospace;text-transform:uppercase;
+letter-spacing:.04em;color:var(--acc);padding-top:4px}.meta{color:var(--mute);font-size:13px}
+pre{background:var(--code);border-radius:8px;padding:10px 12px;overflow:auto;font:13px/1.45 Consolas,"Cascadia Mono",Menlo,monospace;margin:8px 0}
+.dl{display:block}.thought{white-space:pre-wrap}.d-add{background:var(--add);display:block}.d-del{background:var(--del);display:block}.d-hdr{color:var(--mute);display:block}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}.neu{background:var(--code);color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:13px}td code,li code{font:12.5px Consolas,"Cascadia Mono",Menlo,monospace}
+ol.cands{margin:6px 0;padding-left:22px}ol.cands li{margin:2px 0}.gt{font-weight:700}
+details summary{cursor:pointer;color:var(--mute);font-size:13px}a{color:var(--acc)}
+.wrap{overflow-x:auto}
+</style></head><body><main><h1>MutaFix run: boltons-002</h1><p class="sub">ranker <code>nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B</code> · patcher <code>nvidia/nemotron-3-super-120b-a12b</code> · via Nebius Token Factory</p><div class="kpis"><div class="kpi"><b><span class="pill ok">fixed</span></b><span>outcome</span></div><div class="kpi"><b>111s</b><span>wall time</span></div><div class="kpi"><b>8</b><span>model calls</span></div><div class="kpi"><b>$0.0305</b><span>API cost</span></div></div><div class="card"><b>Benchmark ground truth</b> (hidden from the agent)<br><span class="meta">boltons/dictutils.py:959 · operator CMP · function <code>boltons/dictutils.py::ManyToMany.update</code></span><pre><span class="d-del">- if type(iterable) is not type(self):   (injected bug)</span><span class="d-add">+ if type(iterable) is type(self):   (original)</span></pre>retriever rank 2 of 20 · ranker position 2 · patched the right function <span class="pill ok">yes</span> · exact restore <span class="pill bad">no</span></div><h2>Trace</h2><div class="card"><div class="step"><div class="tag">reproduce<div class="meta">+2.99s</div></div><div>1 failing test(s) · 1 failed, 524 passed · 2.99s<details><summary>failing tests and errors</summary><pre>tests/test_dictutils.py::test_many_to_many</pre><b>tests/test_dictutils.py::test_many_to_many</b><pre>E   AttributeError: &#x27;list&#x27; object has no attribute &#x27;data&#x27;</pre></details></div></div><div class="step"><div class="tag">trace<div class="meta">+3.44s</div></div><div>re-ran 1 test file(s) with the trace plugin: 1 failing and 29 passing tests, 10 library functions ran in a failing test · 0.32s<br><span class="meta">tests/test_dictutils.py</span></div></div><div class="step"><div class="tag">retrieve<div class="meta">+3.44s</div></div><div>923 functions indexed, 326 reachable from <code>tests/test_dictutils.py::test_many_to_many</code> in the static call graph. Kept 20 candidates, ranked by spectrum score (Ochiai), call graph and BM25 break ties.<details><summary>candidates in retriever order</summary><ol class="cands"><li class=""><code>boltons/dictutils.py::ManyToMany.remove</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class="gt"><code>boltons/dictutils.py::ManyToMany.update</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.__delitem__</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.add</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.__setitem__</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.__init__</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.__getitem__</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.iteritems</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.__len__</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.__contains__</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 1, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.replace</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/dictutils.py::OrderedMultiDict.update</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 3)</span></li><li class=""><code>boltons/urlutils.py::OrderedMultiDict.update</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/setutils.py::IndexedSet.remove</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/fileutils.py::replace</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/setutils.py::_ComplementSet.update</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/setutils.py::IndexedSet.add</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.__repr__</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/setutils.py::IndexedSet.update</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>boltons/dictutils.py::ManyToMany.get</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li></ol></details></div></div><div class="step"><div class="tag">rank<div class="meta">+3.44s</div></div><div><span class="meta">spectrum order kept (no model call)</span><ol class="cands"><li class=""><code>boltons/dictutils.py::ManyToMany.remove</code></li><li class="gt"><code>boltons/dictutils.py::ManyToMany.update</code></li><li class=""><code>boltons/dictutils.py::ManyToMany.__delitem__</code></li><li class=""><code>boltons/dictutils.py::ManyToMany.add</code></li><li class=""><code>boltons/dictutils.py::ManyToMany.__setitem__</code></li></ol></div></div><div class="step"><div class="tag">read<div class="meta">+6.81s</div></div><div><span class="meta">turn 1 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2161 in / 146 out · 3.37s · $0.00016</span><p>read <code>boltons/dictutils.py::ManyToMany.remove</code> </p><p>The error message indicates that a &#x27;list&#x27; object has no attribute &#x27;data&#x27;, which suggests that somewhere in the code a list is being used where a dict-like object with a &#x27;data&#x27; attribute is expected. The &#x27;remove&#x27; method accesses self.data[key] and self.inv.data[val], assuming these are dict-like containers. If self.data or self.inv.data were accidentally replaced with a list, this would cause the AttributeError. Since the failing test involves operations on &#x27;inv&#x27; and &#x27;data&#x27; keys, examining the remove method is a logical first step to understand how these structures are being manipulated.</p></div></div><div class="step"><div class="tag">patch<div class="meta">+11.67s</div></div><div><span class="meta">turn 2 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2453 in / 339 out · 4.54s · $0.00023</span><p>The test failure shows that &#x27;list&#x27; object has no attribute &#x27;data&#x27;, which suggests that self.data or self.inv.data might be lists instead of dict-like objects in some cases. The original remove method assumes that self.data[key] and self.inv.data[val] are sets or dict-like objects with a &#x27;remove&#x27; method and &#x27;in&#x27; checks. However, if these are lists or if the keys don&#x27;t exist, accessing them directly would cause errors. The patch adds safety checks to ensure that the keys exist and that the value is actually present before attempting to remove it, preventing accidental access to non-dict-like objects or missing keys.</p><pre class="diff"><span class="dl d-hdr">--- a/boltons/dictutils.py</span><span class="dl d-hdr">+++ b/boltons/dictutils.py</span><span class="dl d-hdr">@@ -986,10 +986,12 @@</span><span class="dl "> </span><span class="dl ">     def remove(self, key, val):</span><span class="dl d-del">-        self.data[key].remove(val)</span><span class="dl d-del">-        if not self.data[key]:</span><span class="dl d-del">-            del self.data[key]</span><span class="dl d-del">-        self.inv.data[val].remove(key)</span><span class="dl d-del">-        if not self.inv.data[val]:</span><span class="dl d-del">-            del self.inv.data[val]</span><span class="dl d-add">+        if key in self.data and val in self.data[key]:</span><span class="dl d-add">+            self.data[key].remove(val)</span><span class="dl d-add">+            if not self.data[key]:</span><span class="dl d-add">+                del self.data[key]</span><span class="dl d-add">+        if val in self.inv.data and key in self.inv.data[val]:</span><span class="dl d-add">+            self.inv.data[val].remove(key)</span><span class="dl d-add">+            if not self.inv.data[val]:</span><span class="dl d-add">+                del self.inv.data[val]</span><span class="dl "> </span><span class="dl ">     def replace(self, key, newkey):</span></pre><p>tests: <span class="pill bad">1 failing (target tests)</span> <span class="meta">1 failed</span></p><pre>tests/test_dictutils.py::test_many_to_many</pre></div></div><div class="step"><div class="tag">read<div class="meta">+19.7s</div></div><div><span class="meta">turn 3 · nemotron-3-super-120b-a12b · 2870 in / 1422 out · 8.02s · $0.00214</span><p>read <code>boltons/dictutils.py::ManyToMany.__init__</code> </p><p>To understand how self.data and self.inv are initialized, we need to see the __init__ method of ManyToMany. This will reveal what objects self.data and self.inv are supposed to be, and whether they could ever become lists.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to look deeper. The error occurs during the test. Let&#x27;s examine the test again:
+
+In test_many_to_many, there is a line:
+    del m2m.inv[&#x27;a&#x27;]
+
+This invokes __delitem__ on the inv attribute? Actually, m2m.inv is probably another ManyToMany instance? Wait, looking at the class: ManyToMany likely has .data and .inv attributes, both of which are dict-like objects mapping keys to sets of values. The .inv is the inverse mapping.
+
+When we do `del m2m.inv[&#x27;a&#x27;]`, that calls __delitem__ on the inv object (which is a ManyToMany? Or maybe it&#x27;s a dict-like helper?). Actually, from the test, we see that m2m.inv is used like a dict: m2m.inv[&#x27;a&#x27;] returns a frozenset. And we can delete a key from it: del m2m.inv[&#x27;a&#x27;].
+
+So the inv attribute is probably an instance of a class that behaves like a dict mapping values to sets of keys. It might be a ManyToMany itself? Or maybe it&#x27;s a _InvDict? Let&#x27;s look at the ManyToMany class definition.
+
+We should read the __init__ and see what self.data and self.inv are.
+
+Let&#x27;s read candidate 6: ManyToMany.__init__.
+
+But first, let&#x27;s think: The error says &quot;&#x27;list&#x27; object has no attribute &#x27;data&#x27;&quot;. This happens when we try to access .data on something that is a list. Where in the code do we access .data? In the remove method we have self.data[key] and self.inv.data[val]. Also in __delitem__ we have self.data.pop(key) and then self.inv.data[val].remove(key). Also in __setitem__ we have self.data[key] and self.inv.data[val]. Also in add we have self.data[key]</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+39.24s</div></div><div><span class="meta">turn 4 · nemotron-3-super-120b-a12b · 6228 in / 4251 out · 19.54s · $0.00569</span><p>read <code>boltons/dictutils.py::ManyToMany.update</code> </p><p>Now I want to examine the update method because the test uses m2m.update([(1, &#x27;a&#x27;), (2, &#x27;b&#x27;)]) and the error occurs during many-to-many operations. The update method handles different types of input, including another ManyToMany instance. Looking at lines 959-970, when the input is not of the same type, it tries to access other.data and other.inv.data. If &#x27;other&#x27; is a plain list or something without a .data attribute, this would cause the AttributeError. The test passes a list of tuples to update, so let&#x27;s check if the logic correctly handles that case.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have seen the __init__ method. It initializes self.data as a dict and self.inv either as another ManyToMany instance (created via self.__class__((_PAIRING, self))) or, in the case of a special tuple, it uses the provided items[1] as self.inv.
+
+Now, note that in the test, we have:
+    m2m = ManyToMany()
+    ... later ...
+    del m2m.inv[&#x27;a&#x27;]
+
+This deletion is done on m2m.inv, which is itself a ManyToMany instance (unless we are in the case of the special tuple). The __delitem__ method of ManyToMany is defined (we saw it earlier as candidate [3]):
+
+  951 |     def __delitem__(self, key):
+  952 |         for val in self.data.pop(key):
+  953 |             self.inv.data[val].remove(key)
+  954 |             if not self.inv.data[val]:
+  955 |                 del self.inv.data[val]
+
+But wait: when we do `del m2m.inv[&#x27;a&#x27;]`, we are calling __delitem__ on the inv ManyToMany instance. Let&#x27;s look at that again:
+
+In the test:
+    m2m = ManyToMany()
+    m2m.add(1, &#x27;a&#x27;)
+    m2m.add(1, &#x27;b&#x27;)
+    ... then ...
+    del m2m.inv[&#x27;a&#x27;]
+
+At this point, m2m.inv is a ManyToMany instance that maps values to keys. Specifically, after adding (1,&#x27;a&#x27;) and (1,&#x27;b&#x27;), we have:
+   m2m.data: {1: {&#x27;a&#x27;,&#x27;b&#x27;}}
+   m2m.inv.data: {&#x27;a&#x27;: {1}, &#x27;b&#x27;: {1}}
+
+Now, when we do `del m2m.inv[&#x27;a&#x27;]`, we are invoking the __delitem__ method of the inv ManyToMany instance (which is a ManyToMany) with key=&#x27;a&#x27;.
+
+Let&#x27;s look at the __delitem__ method again (from candidate [3]):
+
+  951 |     def __delitem__(self, key):
+  952 |         for </pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+55.38s</div></div><div><span class="meta">turn 5 · nemotron-3-super-120b-a12b · 7242 in / 4186 out · 16.130000000000003s · $0.00594</span><p>read <code>boltons/dictutils.py::ManyToMany.__getitem__</code> </p><p>Let&#x27;s look at the __getitem__ method because the test does m2m[1] and expects a frozenset. If there&#x27;s an issue with how data is stored or retrieved, it might manifest here. Also, understanding what self.data contains will help us see if it&#x27;s ever becoming a list instead of a set or dict.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have identified a potential issue in the update method. When the iterable is not of the same type as self (i.e., not a ManyToMany instance), the code assumes that `iterable` has `.data` and `.inv.data` attributes (lines 961, 966). However, in the test, we call `m2m.update([(1, &#x27;a&#x27;), (2, &#x27;b&#x27;)])`, where the argument is a list of tuples. A list does not have a `.data` attribute, so when the code tries to access `other.data` (where `other` is the list), it will raise an AttributeError: &#x27;list&#x27; object has no attribute &#x27;data&#x27;.
+
+But note: the condition at line 959 is `if type(iterable) is not type(self):`. For a list of tuples, `type(iterable)` is `list`, which is not equal to `type(self)` (which is `ManyToMany`), so we enter this branch. Then we set `other = iterable` (so `other` is the list) and then try to access `other.data` -&gt; error.
+
+However, the test also has a branch for when the iterable has a `keys` method (line 971) and else (line 974) for an iterable of pairs. The list of tuples should be caught by the else branch (line 974) because a list does not have a `keys` method (unless it&#x27;s a dict, but it&#x27;s not). So why are we entering the first branch?
+
+Wait: the condition is `if type(iterable) is not type(self):`. This is checking for exact type equality. But note that the test also passes a list to `update` in the line: `m2m.update([(1, &#x27;a&#x27;), (2, &#x27;b&#x27;)])`. This list is not of type `ManyToMany`, so we go into the first branch. But we should go into the else branch (line 974) f</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+73.54s</div></div><div><span class="meta">turn 6 · nemotron-3-super-120b-a12b · 7580 in / 4203 out · 18.16s · $0.00606</span><p>read <code>boltons/dictutils.py::ManyToMany.add</code> </p><p>Let&#x27;s re-examine the add method since it&#x27;s fundamental to how data is inserted into self.data and self.inv. We saw that self.data and self.inv are initialized as dicts in __init__, but if add is not handling the types correctly, it might be causing corruption. Specifically, we need to confirm that self.data[key] and self.inv.data[val] are always sets, as assumed throughout the code.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have identified that the error is: AttributeError: &#x27;list&#x27; object has no attribute &#x27;data&#x27;
+ This happens in the test when calling methods on ManyToMany.
+
+ Let&#x27;s trace the test step by step until the error.
+
+ The test does:
+   m2m = ManyToMany()
+   ... (some adds and removes)
+   m2m.update([(1, &#x27;a&#x27;), (2, &#x27;b&#x27;)])
+
+ In the update method, when the argument is a list of tuples, it goes to the else branch (line 974-976) because:
+   - type(iterable) is list, which is not type(self) (ManyToMany) -&gt; so first condition true? Wait, let&#x27;s see:
+
+ Actually, the update method has:
+   if type(iterable) is not type(self):   # line 959
+        ... # This branch is taken for non-ManyToMany iterables
+   elif callable(getattr(iterable, &#x27;keys&#x27;, None)): # line 971
+        ... # for dict-like
+   else:
+        ... # for iterable of pairs (line 974-976)
+
+ So for a list of tuples, it should go to the else branch and call self.add for each pair.
+
+ However, note that the condition at line 959: `if type(iterable) is not type(self):`
+   For a list, type(iterable) is list, type(self) is ManyToMany -&gt; they are not the same, so we enter the first branch.
+
+ But wait, the first branch (lines 960-970) assumes that `iterable` has attributes `.data` and `.inv.data`.
+   Specifically, it does:
+        other = iterable   # line 960
+        for k in other.data:   # line 961
+
+ If we pass a list, then `other` is a list, and a list does not have a `.data` attribute -&gt; hence the error.
+
+ Therefore, the bug is in the updat</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+96.68s</div></div><div><span class="meta">turn 7 · nemotron-3-super-120b-a12b · 8096 in / 4215 out · 23.14s · $0.00622</span><p>read <code>boltons/dictutils.py::ManyToMany.__delitem__</code> </p><p>Let&#x27;s examine the __delitem__ method because the test does &#x27;del m2m.inv[&#x27;a&#x27;]&#x27; and later operations depend on the inv mapping being correct. If __delitem__ on the inv (which is another ManyToMany) is not working properly, it could leave the data in an inconsistent state. The error shows a &#x27;list&#x27; object has no attribute &#x27;data&#x27;, so we need to see if anywhere we&#x27;re assigning a list to self.data or self.inv.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have seen the code for ManyToMany. The error is: AttributeError: &#x27;list&#x27; object has no attribute &#x27;data&#x27;. This happens in the test when doing operations on m2m.inv or m2m.data? Let&#x27;s trace the test:
+
+The test does:
+    m2m = ManyToMany()
+    ... 
+    m2m.add(1, &#x27;a&#x27;)
+    m2m.add(1, &#x27;b&#x27;)
+    ...
+    del m2m.inv[&#x27;a&#x27;]   # This is the line that might cause trouble?
+
+Wait, the test does: del m2m.inv[&#x27;a&#x27;]
+
+But note: m2m.inv is a ManyToMany instance (the inverse). In the __init__, we see that if items is not provided, then self.inv is set to self.__class__((_PAIRING, self)). So m2m.inv is a ManyToMany that has m2m as its data? Actually, look at line 927: self.inv = self.__class__((_PAIRING, self))
+
+So m2m.inv is a ManyToMany instance that was created with items=(_PAIRING, self). Then in __init__, when items is a tuple and items[0] is _PAIRING, we set self.inv = items[1] (line 924-925). Wait, that&#x27;s for the inverse? Let&#x27;s read carefully:
+
+In ManyToMany.__init__:
+        if type(items) is tuple and items and items[0] is _PAIRING:
+            self.inv = items[1]
+        else:
+            self.inv = self.__class__((_PAIRING, self))
+            if items:
+                self.update(items)
+
+So when we create a ManyToMany normally (without the _PAIRING tuple), we go to the else branch and set self.inv to a new ManyToMany created with (_PAIRING, self). That means the inverse&#x27;s data is set to the original? Actually, note: the inverse is created with items=(_PAIRING, self). Then in its __init</pre></details></div></div><div class="step"><div class="tag">patch<div class="meta">+111.31s</div></div><div><span class="meta">turn 8 · nemotron-3-super-120b-a12b · 4293 in / 3077 out · 10.95s · $0.00406</span><p>The error occurred because the update method incorrectly treated a list of tuples as a ManyToMany-like object, attempting to access its .data attribute. The condition `if type(iterable) is not type(self):` was too broad, catching non-ManyToMany iterables (like lists) and trying to access .data and .inv.data on them. The fix changes the condition to `if isinstance(iterable, self.__class__):`, ensuring the bulk update logic only runs for actual ManyToMany instances. For other iterables (including lists, dicts, etc.), the method correctly falls back to the dict-like or iterable-of-pairs branches, allowing the list of tuples to be processed via the else branch that calls self.add for each pair.</p><pre class="diff"><span class="dl d-hdr">--- a/boltons/dictutils.py</span><span class="dl d-hdr">+++ b/boltons/dictutils.py</span><span class="dl d-hdr">@@ -957,5 +957,5 @@</span><span class="dl ">     def update(self, iterable):</span><span class="dl ">         &quot;&quot;&quot;given an iterable of (key, val), add them all&quot;&quot;&quot;</span><span class="dl d-del">-        if type(iterable) is not type(self):</span><span class="dl d-add">+        if isinstance(iterable, self.__class__):</span><span class="dl ">             other = iterable</span><span class="dl ">             for k in other.data:</span></pre><p>tests: <span class="pill ok">all tests pass</span> <span class="meta">525 passed</span></p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have examined several methods. The error is: AttributeError: &#x27;list&#x27; object has no attribute &#x27;data&#x27;
+ This suggests that at some point, either self.data or self.inv is a list instead of a dict-like object.
+
+ Let&#x27;s trace the initialization and updates:
+
+ In __init__:
+   self.data = {}   (always a dict)
+   if ...:
+        self.inv = items[1]   (could be anything? but note: when items is a tuple and items[0] is _PAIRING, then self.inv is set to items[1])
+   else:
+        self.inv = self.__class__((_PAIRING, self))   (a new ManyToMany)
+
+ So normally, self.inv is a ManyToMany instance, which has a .data attribute (a dict).
+
+ However, note the condition: if type(items) is tuple and items and items[0] is _PAIRING:
+   then self.inv = items[1]
+
+ What is _PAIRING? We don&#x27;t have the context, but it&#x27;s likely a marker used internally.
+
+ Now, look at the update method:
+
+   if type(iterable) is not type(self):
+        other = iterable
+        for k in other.data:   # Here, if other is not a ManyToMany, we assume it has a .data attribute?
+        ...
+
+ But wait: the condition is: if type(iterable) is not type(self): then we treat it as &#x27;other&#x27; and try to access other.data and other.inv.data.
+
+ However, in the test, we call:
+        m2m.update([(1, &#x27;a&#x27;), (2, &#x27;b&#x27;)])
+
+ Here, iterable is a list of tuples. So type(iterable) is list, which is not equal to type(self) (ManyToMany). Therefore, we go into the first branch.
+
+ Then we set: other = iterable (the list)
+
+ Then we try to loop: for k in oth</pre></details></div></div></div><h2>Final patch</h2><pre class="diff"><span class="dl d-hdr">--- a/boltons/dictutils.py</span><span class="dl d-hdr">+++ b/boltons/dictutils.py</span><span class="dl d-hdr">@@ -957,5 +957,5 @@</span><span class="dl ">     def update(self, iterable):</span><span class="dl ">         &quot;&quot;&quot;given an iterable of (key, val), add them all&quot;&quot;&quot;</span><span class="dl d-del">-        if type(iterable) is not type(self):</span><span class="dl d-add">+        if isinstance(iterable, self.__class__):</span><span class="dl ">             other = iterable</span><span class="dl ">             for k in other.data:</span></pre></main></body></html>

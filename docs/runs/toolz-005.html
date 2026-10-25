@@ -1,0 +1,147 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MutaFix run: toolz-005</title><style>
+:root{--bg:#fbfbf9;--fg:#1d1f21;--mute:#6a6f75;--line:#e3e3de;--card:#ffffff;--ok:#1f7a3f;--okbg:#e7f4ea;
+--bad:#a8321f;--badbg:#fbe9e5;--acc:#5b3fd1;--code:#f4f4f0;--add:#e6f4e8;--del:#fbe8e6}
+@media (prefers-color-scheme:dark){:root{--bg:#141517;--fg:#e6e6e3;--mute:#9a9ea3;--line:#2c2e31;--card:#1b1c1f;
+--ok:#6fcf8e;--okbg:#17301f;--bad:#f08a75;--badbg:#3a1d17;--acc:#a993ff;--code:#202226;--add:#173022;--del:#3a1d1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}.sub{color:var(--mute);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:24px}.kpi span{color:var(--mute);font-size:13px}
+.step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;border-top:1px solid var(--line);padding:14px 0}
+.step:first-child{border-top:0}.tag{font:600 12px/1 Consolas,"Cascadia Mono",Menlo,monospace;text-transform:uppercase;
+letter-spacing:.04em;color:var(--acc);padding-top:4px}.meta{color:var(--mute);font-size:13px}
+pre{background:var(--code);border-radius:8px;padding:10px 12px;overflow:auto;font:13px/1.45 Consolas,"Cascadia Mono",Menlo,monospace;margin:8px 0}
+.dl{display:block}.thought{white-space:pre-wrap}.d-add{background:var(--add);display:block}.d-del{background:var(--del);display:block}.d-hdr{color:var(--mute);display:block}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}.neu{background:var(--code);color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:13px}td code,li code{font:12.5px Consolas,"Cascadia Mono",Menlo,monospace}
+ol.cands{margin:6px 0;padding-left:22px}ol.cands li{margin:2px 0}.gt{font-weight:700}
+details summary{cursor:pointer;color:var(--mute);font-size:13px}a{color:var(--acc)}
+.wrap{overflow-x:auto}
+</style></head><body><main><h1>MutaFix run: toolz-005</h1><p class="sub">ranker <code>nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B</code> · patcher <code>nvidia/nemotron-3-super-120b-a12b</code> · via Nebius Token Factory</p><div class="kpis"><div class="kpi"><b><span class="pill ok">fixed</span></b><span>outcome</span></div><div class="kpi"><b>46s</b><span>wall time</span></div><div class="kpi"><b>4</b><span>model calls</span></div><div class="kpi"><b>$0.0096</b><span>API cost</span></div></div><div class="card"><b>Benchmark ground truth</b> (hidden from the agent)<br><span class="meta">toolz/_signatures.py:763 · operator NEGCOND · function <code>toolz/_signatures.py::_has_keywords</code></span><pre><span class="d-del">- if not (func not in signatures):   (injected bug)</span><span class="d-add">+ if func not in signatures:   (original)</span></pre>retriever rank 1 of 20 · ranker position 1 · patched the right function <span class="pill ok">yes</span> · exact restore <span class="pill ok">yes</span></div><h2>Trace</h2><div class="card"><div class="step"><div class="tag">reproduce<div class="meta">+0.44s</div></div><div>3 failing test(s) · 3 failed, 183 passed, 1 skipped, 1 deselected · 0.44s<details><summary>failing tests and errors</summary><pre>toolz/tests/test_curried.py::test_curried_namespace
+toolz/tests/test_inspect_args.py::test_has_keywords
+toolz/tests/test_signatures.py::test_for_coverage</pre><b>toolz/tests/test_curried.py::test_curried_namespace</b><pre>E   AssertionError: partial should come from toolz and NOT be curried</pre><b>toolz/tests/test_inspect_args.py::test_has_keywords</b><pre>E   assert None
+E    +  where None = has_keywords(int)</pre></details></div></div><div class="step"><div class="tag">trace<div class="meta">+0.84s</div></div><div>re-ran 3 test file(s) with the trace plugin: 3 failing and 27 passing tests, 23 library functions ran in a failing test · 0.37s<br><span class="meta">toolz/tests/test_curried.py, toolz/tests/test_inspect_args.py, toolz/tests/test_signatures.py</span></div></div><div class="step"><div class="tag">retrieve<div class="meta">+0.84s</div></div><div>161 functions indexed, 49 reachable from <code>toolz/tests/test_curried.py::test_curried_namespace</code> in the static call graph. Kept 20 candidates, ranked by spectrum score (Ochiai), call graph and BM25 break ties.<details><summary>candidates in retriever order</summary><ol class="cands"><li class="gt"><code>toolz/_signatures.py::_has_keywords</code> <span class="meta">call depth - · Ochiai 1.00 (failing 3, passing 0)</span></li><li class=""><code>toolz/functoolz.py::has_keywords</code> <span class="meta">call depth - · Ochiai 0.71 (failing 3, passing 3)</span></li><li class=""><code>toolz/dicttoolz.py::valfilter</code> <span class="meta">call depth 1 · Ochiai 0.58 (failing 1, passing 0)</span></li><li class=""><code>toolz/functoolz.py::curry.__eq__</code> <span class="meta">call depth 1 · Ochiai 0.58 (failing 1, passing 0)</span></li><li class=""><code>toolz/functoolz.py::curry.__ne__</code> <span class="meta">call depth 1 · Ochiai 0.58 (failing 1, passing 0)</span></li><li class=""><code>toolz/dicttoolz.py::merge</code> <span class="meta">call depth 1 · Ochiai 0.41 (failing 1, passing 1)</span></li><li class=""><code>toolz/_signatures.py::_is_arity</code> <span class="meta">call depth - · Ochiai 0.41 (failing 1, passing 1)</span></li><li class=""><code>toolz/functoolz.py::num_required_args</code> <span class="meta">call depth - · Ochiai 0.41 (failing 2, passing 6)</span></li><li class=""><code>toolz/_signatures.py::check_arity</code> <span class="meta">call depth - · Ochiai 0.41 (failing 1, passing 1)</span></li><li class=""><code>toolz/functoolz.py::_check_sigspec</code> <span class="meta">call depth 3 · Ochiai 0.35 (failing 3, passing 22)</span></li><li class=""><code>toolz/dicttoolz.py::merge_with</code> <span class="meta">call depth 1 · Ochiai 0.33 (failing 1, passing 2)</span></li><li class=""><code>toolz/_signatures.py::_num_required_args</code> <span class="meta">call depth - · Ochiai 0.33 (failing 1, passing 2)</span></li><li class=""><code>toolz/functoolz.py::is_arity</code> <span class="meta">call depth - · Ochiai 0.33 (failing 1, passing 2)</span></li><li class=""><code>toolz/_signatures.py::check_required_args</code> <span class="meta">call depth - · Ochiai 0.33 (failing 1, passing 2)</span></li><li class=""><code>toolz/dicttoolz.py::_get_factory</code> <span class="meta">call depth 2 · Ochiai 0.29 (failing 1, passing 3)</span></li><li class=""><code>toolz/_signatures.py::_has_varargs</code> <span class="meta">call depth - · Ochiai 0.29 (failing 1, passing 3)</span></li><li class=""><code>toolz/functoolz.py::curry.__init__</code> <span class="meta">call depth 1 · Ochiai 0.18 (failing 1, passing 9)</span></li><li class=""><code>toolz/functoolz.py::curry.__call__</code> <span class="meta">call depth 1 · Ochiai 0.18 (failing 1, passing 9)</span></li><li class=""><code>toolz/functoolz.py::curry.func</code> <span class="meta">call depth 2 · Ochiai 0.17 (failing 1, passing 10)</span></li><li class=""><code>toolz/functoolz.py::curry.args</code> <span class="meta">call depth 2 · Ochiai 0.17 (failing 1, passing 10)</span></li></ol></details></div></div><div class="step"><div class="tag">rank<div class="meta">+0.84s</div></div><div><span class="meta">spectrum order kept (no model call)</span><ol class="cands"><li class="gt"><code>toolz/_signatures.py::_has_keywords</code></li><li class=""><code>toolz/functoolz.py::has_keywords</code></li><li class=""><code>toolz/dicttoolz.py::valfilter</code></li><li class=""><code>toolz/functoolz.py::curry.__eq__</code></li><li class=""><code>toolz/functoolz.py::curry.__ne__</code></li></ol></div></div><div class="step"><div class="tag">read<div class="meta">+2.33s</div></div><div><span class="meta">turn 1 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2117 in / 126 out · 1.5s · $0.00016</span><p>read <code>toolz/functoolz.py::has_keywords</code> </p><p>The test `test_has_keywords` expects `has_keywords(int)` to return `None`, but the current implementation returns `True` for functions with no keywords. The candidate `_has_keywords` in `toolz/_signatures.py` returns `None` when `any(checks)` is true, which matches the expected behavior. However, the test failure suggests a logic issue in how the result is handled. I need to examine the source of `_has_keywords` to confirm the exact logic.</p></div></div><div class="step"><div class="tag">read<div class="meta">+3.81s</div></div><div><span class="meta">turn 2 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2415 in / 139 out · 1.48s · $0.00018</span><p>read <code>toolz/_signatures.py::_has_keywords</code> </p><p>The test `test_has_keywords` fails because `has_keywords(int)` returns `True` instead of `None`. The root cause appears to be in `_has_keywords` (candidate 1), which returns `None` only when `all(checks)` is true, but returns `True` when `any(checks)` is true. However, the test expects `None` when there are no keywords. The logic in `_has_keywords` might be inverted. Let me read the full source of `_has_keywords` to confirm the exact behavior.</p></div></div><div class="step"><div class="tag">patch<div class="meta">+35.34s</div></div><div><span class="meta">turn 3 · nemotron-3-super-120b-a12b · 5452 in / 5108 out · 31.19s · $0.00623</span><p>I notice the old and new code are identical, which means my proposed patch would have no effect. This indicates I misunderstood the issue. Let me re-examine the test failure.
+
+Looking at the test `test_has_keywords`: it asserts that `has_keywords(int)` should return `None`. From the traceback, we see `assert None` failed, meaning `has_keywords(int)` returned something that is not `None` (likely `False`).
+
+In `_has_keywords`, the function returns:
+- `None` if `func in signatures` (line 763)
+- Otherwise, it computes `checks = [check_keywords(sig) for sig in sigs]`
+- Returns `True` if all checks are true
+- Returns `None` if any check is true (but not all)
+- Returns `False` if no checks are true
+
+For `int`, which has no keyword parameters, `check_keywords(sig)` should return `False` for its signature(s). So `checks` would be a list of `False` values.
+Then `all(checks)` is `False`, `any(checks)` is `False`, so the function returns `False`.
+
+But the test expects `None`. This suggests that for built-in functions like `int`, we should return `None` when we cannot determine the signature definitively.
+
+Looking at line 763: `if not (func not in signatures):` which is equivalent to `if func in signatures:` then return `None`.
+This means if the function IS in the signatures cache, we return `None`. But for `int`, if it&#x27;s NOT in signatures, we proceed to compute checks.
+
+The test expects `None` for `has_keywords(int)`, which means we want the function to return `None` when we cannot determine if it has keywords.
+
+The current logic returns `None` only when:
+1. `func in signatures` (line 763), OR
+2. `not all(checks) and any(checks)` (line 769-770)
+
+It returns `False` only when `not any(checks)` (line 771).
+
+So to make `has_keywords(int)` return `None`, we need either:
+- `int` to be in `signatures`, OR
+- The checks to have mixed results (some True, some False)
+
+Since `int` has a single signature with no keywords, `check_keywords` should return `False` for it, making `checks = [False]`, so `any(checks)` is `False`, and we return `False`.
+
+The problem might be that `int` should be treated as having undetermined keyword status, hence return `None`. Looking at the condition on line 763: it returns `None` if `func in signatures`. Perhaps we should return `None` when `func NOT in signatures` instead?
+
+Let me check what the function is supposed to do. The name `_has_keywords` suggests it should return:
+- `True` if the function definitely has keyword parameters
+- `False` if it definitely does not
+- `None` if we cannot determine
+
+Currently:
+- Returns `None` if `func in signatures` (opposite of what we want)
+- Returns `True` if all signatures have keywords
+- Returns `None` if some signatures have keywords
+- Returns `False` if no signatures have keywords
+
+This is backwards! The first condition should probably return `None` when we DON&#x27;T have signature info, not when we DO.
+
+Let me propose the fix: change line 763 from `if not (func not in signatures):` to `if func not in signatures:` so that we return `None` when signature info is missing.</p><pre class="diff"></pre><p>tests: <span class="pill bad">3 failing (target tests)</span> <span class="meta">3 failed</span></p><pre>toolz/tests/test_curried.py::test_curried_namespace
+toolz/tests/test_inspect_args.py::test_has_keywords
+toolz/tests/test_signatures.py::test_for_coverage</pre><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have three failing tests:
+
+1. test_curried_namespace: &quot;partial should come from toolz and NOT be curried&quot;
+2. test_has_keywords: assert None (where None = has_keywords(int))
+3. test_for_coverage: KeyError: None
+
+Let&#x27;s analyze each:
+
+First, test_has_keywords: 
+   The test expects has_keywords(int) to return None.
+   Looking at the code for has_keywords (candidate 2):
+        def has_keywords(func, sigspec=None):
+            sigspec, rv = _check_sigspec(sigspec, func, _sigs._has_keywords, func)
+            if sigspec is None:
+                return rv
+            ... # rest
+
+   So if _check_sigspec returns sigspec=None, then we return rv (which is the result of _sigs._has_keywords(func)).
+
+   Now, what does _sigs._has_keywords (i.e., _has_keywords in toolz/_signatures.py) return for int?
+
+   Let&#x27;s look at _has_keywords (candidate 1):
+
+        def _has_keywords(func):
+            if not (func not in signatures):
+                return None
+            sigs = signatures[func]
+            checks = [check_keywords(sig) for sig in sigs]
+            if all(checks):
+                return True
+            elif any(checks):
+                return None
+            return False
+
+   The condition at line 763: `if not (func not in signatures):` is equivalent to `if func in signatures:`.
+   So if func is in the signatures cache, we return None immediately? That doesn&#x27;t seem right.
+
+   Actually, let&#x27;s read it carefully: 
+        if not (func not in signatures):
+   This is double negative: </pre></details></div></div><div class="step"><div class="tag">patch<div class="meta">+46.03s</div></div><div><span class="meta">turn 4 · nemotron-3-super-120b-a12b · 3855 in / 2054 out · 10.01s · $0.00301</span><p>The test `test_has_keywords` expects `has_keywords(int)` to return `None`, but currently returns `False`. The root cause is in `_has_keywords`: when a function is not in the `signatures` cache (like built-in `int`), it proceeds to check its signature(s). For `int`, which has no keyword parameters, all checks are `False`, so the function returns `False`. However, when signature information is missing, we should return `None` to indicate uncertainty. The fix changes the first condition to return `None` when `func not in signatures` (i.e., when we lack signature info), which matches the expected behavior for `int`. This change should also affect the other two failing tests, as `_has_keywords` is implicated in all three.</p><pre class="diff"><span class="dl d-hdr">--- a/toolz/_signatures.py</span><span class="dl d-hdr">+++ b/toolz/_signatures.py</span><span class="dl d-hdr">@@ -761,5 +761,5 @@</span><span class="dl "> </span><span class="dl "> def _has_keywords(func):</span><span class="dl d-del">-    if not (func not in signatures):</span><span class="dl d-add">+    if func not in signatures:</span><span class="dl ">         return None</span><span class="dl ">     sigs = signatures[func]</span></pre><p>tests: <span class="pill ok">all tests pass</span> <span class="meta">186 passed, 1 skipped, 1 deselected</span></p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We are given that the patch was reverted because it had no effect (the old and new were the same). We must have made a mistake in reading the candidate. Let me look again at the candidate:
+
+The candidate _has_keywords is:
+
+  762 | def _has_keywords(func):
+  763 |     if not (func not in signatures):
+  764 |         return None
+  765 |     sigs = signatures[func]
+  766 |     checks = [check_keywords(sig) for sig in sigs]
+  767 |     if all(checks):
+  768 |         return True
+  769 |     elif any(checks):
+  770 |         return None
+  771 |     return False
+
+The condition on line 763: `if not (func not in signatures):` is equivalent to `if func in signatures:`.
+
+So if the function is in the signatures cache, we return None.
+
+For the test `has_keywords(int)`, we want it to return None. Currently, if `int` is in signatures, we return None (which is good). But the test fails, meaning that `has_keywords(int)` did not return None. Therefore, for `int`, the condition `func in signatures` must be false, so we went on to compute the checks.
+
+We then computed `checks = [check_keywords(sig) for sig in sigs]`. For `int`, which has no keyword parameters, each `check_keywords(sig)` should return False. So `checks` is a list of False.
+
+Then:
+  all(checks) -&gt; False
+  any(checks) -&gt; False
+so we return False.
+
+But we want None. So we need to change the function so that for `int` we return None.
+
+One way is to change the condition so that we return None when we don&#x27;t have signature information </pre></details></div></div></div><h2>Final patch</h2><pre class="diff"><span class="dl d-hdr">--- a/toolz/_signatures.py</span><span class="dl d-hdr">+++ b/toolz/_signatures.py</span><span class="dl d-hdr">@@ -761,5 +761,5 @@</span><span class="dl "> </span><span class="dl "> def _has_keywords(func):</span><span class="dl d-del">-    if not (func not in signatures):</span><span class="dl d-add">+    if func not in signatures:</span><span class="dl ">         return None</span><span class="dl ">     sigs = signatures[func]</span></pre></main></body></html>

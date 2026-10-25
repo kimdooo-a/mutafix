@@ -1,0 +1,167 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MutaFix run: toolz-003</title><style>
+:root{--bg:#fbfbf9;--fg:#1d1f21;--mute:#6a6f75;--line:#e3e3de;--card:#ffffff;--ok:#1f7a3f;--okbg:#e7f4ea;
+--bad:#a8321f;--badbg:#fbe9e5;--acc:#5b3fd1;--code:#f4f4f0;--add:#e6f4e8;--del:#fbe8e6}
+@media (prefers-color-scheme:dark){:root{--bg:#141517;--fg:#e6e6e3;--mute:#9a9ea3;--line:#2c2e31;--card:#1b1c1f;
+--ok:#6fcf8e;--okbg:#17301f;--bad:#f08a75;--badbg:#3a1d17;--acc:#a993ff;--code:#202226;--add:#173022;--del:#3a1d1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}.sub{color:var(--mute);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:24px}.kpi span{color:var(--mute);font-size:13px}
+.step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;border-top:1px solid var(--line);padding:14px 0}
+.step:first-child{border-top:0}.tag{font:600 12px/1 Consolas,"Cascadia Mono",Menlo,monospace;text-transform:uppercase;
+letter-spacing:.04em;color:var(--acc);padding-top:4px}.meta{color:var(--mute);font-size:13px}
+pre{background:var(--code);border-radius:8px;padding:10px 12px;overflow:auto;font:13px/1.45 Consolas,"Cascadia Mono",Menlo,monospace;margin:8px 0}
+.dl{display:block}.thought{white-space:pre-wrap}.d-add{background:var(--add);display:block}.d-del{background:var(--del);display:block}.d-hdr{color:var(--mute);display:block}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}.neu{background:var(--code);color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:13px}td code,li code{font:12.5px Consolas,"Cascadia Mono",Menlo,monospace}
+ol.cands{margin:6px 0;padding-left:22px}ol.cands li{margin:2px 0}.gt{font-weight:700}
+details summary{cursor:pointer;color:var(--mute);font-size:13px}a{color:var(--acc)}
+.wrap{overflow-x:auto}
+</style></head><body><main><h1>MutaFix run: toolz-003</h1><p class="sub">ranker <code>nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B</code> · patcher <code>nvidia/nemotron-3-super-120b-a12b</code> · via Nebius Token Factory</p><div class="kpis"><div class="kpi"><b><span class="pill bad">not fixed</span></b><span>outcome</span></div><div class="kpi"><b>100s</b><span>wall time</span></div><div class="kpi"><b>8</b><span>model calls</span></div><div class="kpi"><b>$0.0297</b><span>API cost</span></div></div><div class="card"><b>Benchmark ground truth</b> (hidden from the agent)<br><span class="meta">toolz/functoolz.py:257 · operator CMP · function <code>toolz/functoolz.py::curry.__signature__</code></span><pre><span class="d-del">- elif kind != param.VAR_POSITIONAL:   (injected bug)</span><span class="d-add">+ elif kind == param.VAR_POSITIONAL:   (original)</span></pre>retriever rank 3 of 20 · ranker position 3 · patched the right function <span class="pill bad">no</span> · exact restore <span class="pill bad">no</span></div><h2>Trace</h2><div class="card"><div class="step"><div class="tag">reproduce<div class="meta">+0.45s</div></div><div>3 failing test(s) · 3 failed, 183 passed, 1 skipped, 1 deselected · 0.45s<details><summary>failing tests and errors</summary><pre>toolz/tests/test_inspect_args.py::test_introspect_curry_valid_py3
+toolz/tests/test_inspect_args.py::test_introspect_curry_partial_py3
+toolz/tests/test_inspect_args.py::test_introspect_curry_py3</pre><b>toolz/tests/test_inspect_args.py::test_introspect_curry_valid_py3</b><pre>E   assert False
+E    +  where False = &lt;function test_introspect_curry_valid_py3.&lt;locals&gt;.&lt;lambda&gt; at 0x0000024CEA1E4180&gt;(&lt;function func at 0x0000024CEA1E5260&gt;)</pre><b>toolz/tests/test_inspect_args.py::test_introspect_curry_partial_py3</b><pre>E   assert True is False
+E    +  where True = &lt;function test_introspect_curry_valid_py3.&lt;locals&gt;.&lt;lambda&gt; at 0x0000024CEA1ABA60&gt;(&lt;function func at 0x0000024CEA1F0F40&gt;, 2)
+E    +    where &lt;function func at 0x0000024CEA1F0F40&gt; = &lt;function func at 0x0000024CEA1F0F40&gt;(x=1)</pre></details></div></div><div class="step"><div class="tag">trace<div class="meta">+0.83s</div></div><div>re-ran 1 test file(s) with the trace plugin: 3 failing and 14 passing tests, 18 library functions ran in a failing test · 0.36s<br><span class="meta">toolz/tests/test_inspect_args.py</span></div></div><div class="step"><div class="tag">retrieve<div class="meta">+0.83s</div></div><div>161 functions indexed, 45 reachable from <code>toolz/tests/test_inspect_args.py::test_introspect_curry_valid_py3</code> in the static call graph. Kept 20 candidates, ranked by spectrum score (Ochiai), call graph and BM25 break ties.<details><summary>candidates in retriever order</summary><ol class="cands"><li class=""><code>toolz/functoolz.py::curry.__repr__</code> <span class="meta">call depth 1 · Ochiai 1.00 (failing 3, passing 0)</span></li><li class=""><code>toolz/functoolz.py::curry.__init__</code> <span class="meta">call depth 1 · Ochiai 0.87 (failing 3, passing 1)</span></li><li class="gt"><code>toolz/functoolz.py::curry.__signature__</code> <span class="meta">call depth 1 · Ochiai 0.87 (failing 3, passing 1)</span></li><li class=""><code>toolz/functoolz.py::curry.args</code> <span class="meta">call depth 1 · Ochiai 0.78 (failing 3, passing 2)</span></li><li class=""><code>toolz/functoolz.py::curry.func</code> <span class="meta">call depth 2 · Ochiai 0.78 (failing 3, passing 2)</span></li><li class=""><code>toolz/functoolz.py::curry.keywords</code> <span class="meta">call depth 2 · Ochiai 0.78 (failing 3, passing 2)</span></li><li class=""><code>toolz/functoolz.py::InstanceProperty.__get__</code> <span class="meta">call depth - · Ochiai 0.78 (failing 3, passing 2)</span></li><li class=""><code>toolz/functoolz.py::is_partial_args</code> <span class="meta">call depth 2 · Ochiai 0.66 (failing 3, passing 4)</span></li><li class=""><code>toolz/functoolz.py::is_valid_args</code> <span class="meta">call depth 1 · Ochiai 0.47 (failing 2, passing 4)</span></li><li class=""><code>toolz/functoolz.py::has_varargs</code> <span class="meta">call depth 3 · Ochiai 0.47 (failing 2, passing 4)</span></li><li class=""><code>toolz/functoolz.py::_check_sigspec</code> <span class="meta">call depth 2 · Ochiai 0.43 (failing 3, passing 13)</span></li><li class=""><code>toolz/functoolz.py::curry.__call__</code> <span class="meta">call depth 1 · Ochiai 0.41 (failing 1, passing 1)</span></li><li class=""><code>toolz/functoolz.py::curry._should_curry</code> <span class="meta">call depth 2 · Ochiai 0.41 (failing 1, passing 1)</span></li><li class=""><code>toolz/functoolz.py::curry.bind</code> <span class="meta">call depth 2 · Ochiai 0.41 (failing 1, passing 1)</span></li><li class=""><code>toolz/functoolz.py::is_arity</code> <span class="meta">call depth - · Ochiai 0.41 (failing 1, passing 1)</span></li><li class=""><code>toolz/_signatures.py::signature_or_spec</code> <span class="meta">call depth 3 · Ochiai 0.33 (failing 1, passing 2)</span></li><li class=""><code>toolz/functoolz.py::has_keywords</code> <span class="meta">call depth - · Ochiai 0.33 (failing 1, passing 2)</span></li><li class=""><code>toolz/functoolz.py::num_required_args</code> <span class="meta">call depth - · Ochiai 0.26 (failing 1, passing 4)</span></li><li class=""><code>toolz/_signatures.py::check_valid</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::curry.__eq__</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li></ol></details></div></div><div class="step"><div class="tag">rank<div class="meta">+0.83s</div></div><div><span class="meta">spectrum order kept (no model call)</span><ol class="cands"><li class=""><code>toolz/functoolz.py::curry.__repr__</code></li><li class=""><code>toolz/functoolz.py::curry.__init__</code></li><li class="gt"><code>toolz/functoolz.py::curry.__signature__</code></li><li class=""><code>toolz/functoolz.py::curry.args</code></li><li class=""><code>toolz/functoolz.py::curry.func</code></li></ol></div></div><div class="step"><div class="tag">read<div class="meta">+3.08s</div></div><div><span class="meta">turn 1 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2966 in / 145 out · 2.26s · $0.00021</span><p>read <code>toolz/functoolz.py::curry.__init__</code> </p><p>The failing tests involve curry objects being validated with check_valid functions that expect proper handling of args/keywords. The __init__ method constructs self._partial using partial(func, *args, **kwargs), but the failing tests show that required positional arguments are not being enforced correctly—evidenced by assertions like &#x27;True is False&#x27; and &#x27;1 == 0&#x27; where the curry should reject calls with insufficient required arguments. Since __init__ is responsible for setting up the partial and handling argument merging, and it&#x27;s implicated in all three failing tests, it&#x27;s the most likely source of the bug.</p></div></div><div class="step"><div class="tag">patch<div class="meta">+5.91s</div></div><div><span class="meta">turn 2 · NVIDIA-Nemotron-3-Nano-30B-A3B · 3653 in / 176 out · 2.48s · $0.00026</span><p>The error message incorrectly states that `__init__()` takes at least 2 arguments (1 given), but the test `test_introspect_curry_valid_py3` passes a single argument (the callable) to `curry()`. This mismatch causes the test to fail when validating function signatures. The fix adjusts the error message to reflect that `__init__` expects at least 1 argument, which aligns with the actual usage in the tests.</p><pre class="diff"><span class="dl d-hdr">--- a/toolz/functoolz.py</span><span class="dl d-hdr">+++ b/toolz/functoolz.py</span><span class="dl d-hdr">@@ -197,5 +197,5 @@</span><span class="dl ">     def __init__(self, *args, **kwargs):</span><span class="dl ">         if not args:</span><span class="dl d-del">-            raise TypeError(&#x27;__init__() takes at least 2 arguments (1 given)&#x27;)</span><span class="dl d-add">+            raise TypeError(&#x27;__init__() takes at least 1 argument&#x27;)</span><span class="dl ">         func, args = args[0], args[1:]</span><span class="dl ">         if not callable(func):</span></pre><p>tests: <span class="pill bad">3 failing (target tests)</span> <span class="meta">3 failed</span></p><pre>toolz/tests/test_inspect_args.py::test_introspect_curry_valid_py3
+toolz/tests/test_inspect_args.py::test_introspect_curry_partial_py3
+toolz/tests/test_inspect_args.py::test_introspect_curry_py3</pre></div></div><div class="step"><div class="tag">read<div class="meta">+26.18s</div></div><div><span class="meta">turn 3 · nemotron-3-super-120b-a12b · 4139 in / 3745 out · 20.27s · $0.00461</span><p>read <code>toolz/functoolz.py::is_valid_args</code> </p><p>We need to understand how is_valid_args works, because the test uses it to validate the curried function. The failure is that is_valid_args(f, (), {}) returns False when it should return True for a freshly curried function with no arguments.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to look deeper. The issue seems to be about how curry handles keyword arguments and required parameters. Let&#x27;s examine the test more closely.
+
+From the test failures:
+
+In test_introspect_curry_valid_py3:
+- They create a curried function from make_func(&#x27;x, y, z=0&#x27;) which has two required args (x,y) and one optional (z).
+- They then do various checks with check_valid (which is a wrapper around is_valid_args).
+
+Specifically, they have:
+    f = toolz.curry(make_func(&#x27;x, y, z=0&#x27;))
+    assert check_valid(f)   # Should be valid? Actually, a curried function with no args provided should be valid because it can accept more args.
+    ... many assertions ...
+
+But one of them fails: the very first `assert check_valid(f)` fails.
+
+So the problem is that the curried function `f` (with no arguments provided) is being considered invalid by `check_valid` (which is `is_valid_args`).
+
+Let&#x27;s look at `is_valid_args` (candidate 9). But first, let&#x27;s see what `check_valid` does in the test: they define:
+    check_valid = lambda _func, *args, **kwargs: orig_check_valid(_func, args, kwargs)
+So it&#x27;s calling `orig_check_valid` (which is `is_valid_args`) with the function and then the args as a tuple and kwargs as a dict.
+
+So `is_valid_args(func, args, kwargs)` returns False for the curried function with no arguments.
+
+Now, what does `is_valid_args` do? Let&#x27;s read it.
+
+But note: the test also uses `check_valid(f, 1)` etc. So we need to understand the expected behavior.
+
+Alternatively, let&#x27;s look a</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+28.38s</div></div><div><span class="meta">turn 4 · nemotron-3-super-120b-a12b · 4396 in / 181 out · 2.2s · $0.00148</span><p>read <code>toolz/functoolz.py::_check_sigspec</code> </p><p>We need to see _check_sigspec to understand how it processes the signature and validation.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to look at `_check_sigspec` and `_sigs._is_valid_args` to understand what&#x27;s happening.
+But note: the test defines `check_valid = lambda _func, *args, **kwargs: orig_check_valid(_func, args, kwargs)`
+So it&#x27;s calling `orig_check_valid(func, args, kwargs)` meaning it passes `args` as a tuple and `kwargs` as a dict.
+In the test, we see calls like `check_valid(f)` which becomes `orig_check_valid(f, (), {})`.
+So we need to see why `is_valid_args(f, (), {})` returns False.
+
+Let&#x27;s look at `_check_sigspec`:</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+31.13s</div></div><div><span class="meta">turn 5 · nemotron-3-super-120b-a12b · 4762 in / 365 out · 2.73s · $0.00176</span><p>read <code>toolz/functoolz.py::curry.__signature__</code> </p><p>We need to examine the __signature__ method of the curry class because is_valid_args relies on the signature to validate arguments. If the signature is wrong, validation will fail.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have to look at the test more closely. The test defines:
+
+    def test_introspect_curry_valid_py3(check_valid=is_valid_args, incomplete=False):
+        orig_check_valid = check_valid
+        check_valid = lambda _func, *args, **kwargs: orig_check_valid(_func, args, kwargs)
+
+So the check_valid passed to the test is actually a lambda that wraps is_valid_args. Then they do:
+
+    f = toolz.curry(make_func(&#x27;x, y, z=0&#x27;))
+    assert check_valid(f)
+
+This becomes: is_valid_args(f, (), {})
+
+Now, what does is_valid_args do? It calls _check_sigspec(None, f, ...) which tries to get the signature of f. Since f is a curry object, it has a __signature__ property (from candidate 3). So we should look at that.
+
+But note: the test also does:
+
+    assert check_valid(f, 1)
+    assert check_valid(f, 1, 2)
+    ... etc.
+
+And then later:
+
+    assert check_valid(f(1))   # which is a partial application
+
+So the problem might be that the curry object&#x27;s __signature__ is not being computed correctly, leading to is_valid_args returning False when it should return True.
+
+Let&#x27;s look at the __signature__ method of curry (candidate 3). We saw it earlier, but let&#x27;s read it again in full.
+
+We&#x27;ll read candidate 3.</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+51.82s</div></div><div><span class="meta">turn 6 · nemotron-3-super-120b-a12b · 10704 in / 4162 out · 20.69s · $0.00696</span><p>read <code>toolz/functoolz.py::is_partial_args</code> </p><p>We need to check is_partial_args because the __signature__ method calls it and raises TypeError if it returns False. If is_partial_args is incorrectly returning False for valid arguments, it would break signature generation and thus validation.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have identified that the issue might be in the __signature__ method. Let&#x27;s look at the logic:
+
+In the loop over parameters, we have:
+  - We skip the first `len(args)` parameters (positional arguments already provided).
+  - Then for each remaining parameter, we check:
+      if kind is VAR_KEYWORD: pass (do nothing)
+      elif kind is not VAR_POSITIONAL:
+          if kwonly: continue   # skip if we are in keyword-only section and this is not keyword-only?
+      elif param.name in keywords:   # This branch is for VAR_POSITIONAL? Actually, note: the condition above is `elif kind != param.VAR_POSITIONAL` so this branch is for when kind is VAR_POSITIONAL? Wait, let&#x27;s reformat:
+
+Actually, the code is:
+
+  for param in params[skip:]:
+      kind = param.kind
+      default = param.default
+      if kind == param.VAR_KEYWORD:
+          pass
+      elif kind != param.VAR_POSITIONAL:
+          if kwonly:
+              continue
+      elif param.name in keywords:   # This is actually the condition for when kind == VAR_POSITIONAL? No, note: the previous condition was `elif kind != param.VAR_POSITIONAL`, so this `elif` is for when kind == VAR_POSITIONAL? Actually, no: the structure is:
+
+      if kind == VAR_KEYWORD: ...
+      elif kind != VAR_POSITIONAL: ...   # This covers everything that is not VAR_POSITIONAL and not VAR_KEYWORD? Actually, note: VAR_POSITIONAL is excluded by the condition, so this block is for POSITIONAL_OR_KEYWORD, KEYWORD_ONLY, etc.
+          if kwonly: continue
+      els</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+75.19s</div></div><div><span class="meta">turn 7 · nemotron-3-super-120b-a12b · 11220 in / 4160 out · 23.37s · $0.00711</span><p>read <code>toolz/functoolz.py::curry.keywords</code> read limit (3) reached</p><p>We need to check the keywords property of the curry class because it affects how keyword arguments are handled in __signature__ and is_partial_args. A bug here could cause valid keyword arguments to be mishandled.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have examined several functions. The problem seems to be that the curry object&#x27;s __signature__ might be incorrectly computed, leading to is_valid_args returning false when it should return true.
+
+Looking at the test failures:
+
+In test_introspect_curry_valid_py3:
+   We have a function make_func(&#x27;x, y, z=0&#x27;) which has parameters x, y, z with default 0.
+   We create a curry: f = toolz.curry(make_func(&#x27;x, y, z=0&#x27;))
+   Then we check:
+      assert check_valid(f)   -&gt; This is checking if the curry object can be called with no arguments? Actually, note that check_valid is defined as:
+          check_valid = lambda _func, *args, **kwargs: orig_check_valid(_func, args, kwargs)
+      So when we do check_valid(f), it becomes orig_check_valid(f, (), {})
+
+   The orig_check_valid is is_valid_args (from the test parameter). So we are calling is_valid_args(f, (), {}).
+
+   Inside is_valid_args:
+        It gets the signature of f (which is a curry object) via __signature__.
+        Then it tries to bind the arguments () and {} to that signature.
+
+   The test expects this to return True, but it returns False.
+
+   Similarly, in test_introspect_curry_partial_py3, we have:
+        f = toolz.curry(make_func(&#x27;x, y, z=0&#x27;))(x=1)   [Actually, the test does: f = toolz.curry(make_func(&#x27;x, y, z=0&#x27;)); then f(1) etc., but the failure is on:
+        assert check_valid(f, 2) is False   [Wait, the error says: assert True is False, meaning that check_valid(f, 2) returned True but the test expected False? Let&#x27;</pre></details></div></div><div class="step"><div class="tag">patch<div class="meta">+100.27s</div></div><div><span class="meta">turn 8 · nemotron-3-super-120b-a12b · 11418 in / 4269 out · 24.75s · $0.00727</span><p>The condition incorrectly raises a TypeError when is_partial_args returns False, but in the context of a fresh curry object (no args, no keywords), is_partial_args should return True for valid partial arguments. However, the logic in __signature__ is flawed: it should not raise an error based on is_partial_args at this stage. Instead, the signature should be computed regardless, and validation should happen later during binding. Removing this check allows the signature to be constructed properly for valid curry objects, which fixes the validation failures in the tests.</p><pre class="diff"><span class="dl d-hdr">--- a/toolz/functoolz.py</span><span class="dl d-hdr">+++ b/toolz/functoolz.py</span><span class="dl d-hdr">@@ -238,6 +238,5 @@</span><span class="dl ">         args = self.args or ()</span><span class="dl ">         keywords = self.keywords or {}</span><span class="dl d-del">-        if is_partial_args(self.func, args, keywords, sig) is False:</span><span class="dl d-del">-            raise TypeError(&#x27;curry object has incorrect arguments&#x27;)</span><span class="dl d-add">+</span><span class="dl "> </span><span class="dl ">         params = list(sig.parameters.values())</span></pre><p>tests: <span class="pill bad">3 failing (target tests)</span> <span class="meta">3 failed</span></p><pre>toolz/tests/test_inspect_args.py::test_introspect_curry_valid_py3
+toolz/tests/test_inspect_args.py::test_introspect_curry_partial_py3
+toolz/tests/test_inspect_args.py::test_introspect_curry_py3</pre><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have examined several candidates. The tests are failing in a way that suggests the context of checking validity of curried functions. The errors indicate that:
+
+1. For a fresh curry object (no arguments), `check_valid(f)` is returning False when it should be True.
+2. When we partially apply with a keyword (e.g., `f(x=1)`), then trying to apply a positional argument for the first parameter (which was already set by keyword) should be invalid, but the test expects it to be invalid and it is? Actually, the test says:
+   - `assert check_valid(f(x=1), 2) is False` -&gt; this is expected to be False, and it is? Wait, the error says:
+     E   assert True is False
+     E    +  where True = &lt;function ...&gt;(&lt;function func at ...&gt;, 2)
+     So the check_valid returned True when it should have returned False.
+
+Let&#x27;s look at the test again for `test_introspect_curry_valid_py3`:
+
+We have:
+    f = toolz.curry(make_func(&#x27;x, y, z=0&#x27;))
+    ... 
+    assert check_valid(f(x=1), y=2)   # This is expected to be True? Let&#x27;s see the test:
+
+Actually, the test has:
+    assert check_valid(f(x=1), y=2)
+
+But in the error for `test_introspect_curry_partial_py3` we see:
+    E   assert True is False
+    E    +  where True = &lt;function test_introspect_curry_valid_py3.&lt;locals&gt;.&lt;lambda&gt; at 0x0000024CEA1ABA60&gt;(&lt;function func at 0x0000024CEA1F0F40&gt;, 2)
+    E    +    where &lt;function func at 0x0000024CEA1F0F40&gt; = &lt;function func at 0x0000024CEA1F0F40&gt;(x=1)
+
+So the test is calling `check_valid(f, 2)` where `f` is the re</pre></details></div></div></div></main></body></html>

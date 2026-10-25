@@ -1,0 +1,200 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MutaFix run: toolz-004</title><style>
+:root{--bg:#fbfbf9;--fg:#1d1f21;--mute:#6a6f75;--line:#e3e3de;--card:#ffffff;--ok:#1f7a3f;--okbg:#e7f4ea;
+--bad:#a8321f;--badbg:#fbe9e5;--acc:#5b3fd1;--code:#f4f4f0;--add:#e6f4e8;--del:#fbe8e6}
+@media (prefers-color-scheme:dark){:root{--bg:#141517;--fg:#e6e6e3;--mute:#9a9ea3;--line:#2c2e31;--card:#1b1c1f;
+--ok:#6fcf8e;--okbg:#17301f;--bad:#f08a75;--badbg:#3a1d17;--acc:#a993ff;--code:#202226;--add:#173022;--del:#3a1d1a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1060px;margin:0 auto;padding:28px 16px 64px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:18px;margin:34px 0 10px}.sub{color:var(--mute);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:24px}.kpi span{color:var(--mute);font-size:13px}
+.step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;border-top:1px solid var(--line);padding:14px 0}
+.step:first-child{border-top:0}.tag{font:600 12px/1 Consolas,"Cascadia Mono",Menlo,monospace;text-transform:uppercase;
+letter-spacing:.04em;color:var(--acc);padding-top:4px}.meta{color:var(--mute);font-size:13px}
+pre{background:var(--code);border-radius:8px;padding:10px 12px;overflow:auto;font:13px/1.45 Consolas,"Cascadia Mono",Menlo,monospace;margin:8px 0}
+.dl{display:block}.thought{white-space:pre-wrap}.d-add{background:var(--add);display:block}.d-del{background:var(--del);display:block}.d-hdr{color:var(--mute);display:block}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:12px;font-weight:600}
+.ok{background:var(--okbg);color:var(--ok)}.bad{background:var(--badbg);color:var(--bad)}.neu{background:var(--code);color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;font-size:13px}td code,li code{font:12.5px Consolas,"Cascadia Mono",Menlo,monospace}
+ol.cands{margin:6px 0;padding-left:22px}ol.cands li{margin:2px 0}.gt{font-weight:700}
+details summary{cursor:pointer;color:var(--mute);font-size:13px}a{color:var(--acc)}
+.wrap{overflow-x:auto}
+</style></head><body><main><h1>MutaFix run: toolz-004</h1><p class="sub">ranker <code>nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B</code> · patcher <code>nvidia/nemotron-3-super-120b-a12b</code> · via Nebius Token Factory</p><div class="kpis"><div class="kpi"><b><span class="pill bad">not fixed</span></b><span>outcome</span></div><div class="kpi"><b>145s</b><span>wall time</span></div><div class="kpi"><b>8</b><span>model calls</span></div><div class="kpi"><b>$0.0363</b><span>API cost</span></div></div><div class="card"><b>Benchmark ground truth</b> (hidden from the agent)<br><span class="meta">toolz/_signatures.py:610 · operator NEGCOND · function <code>toolz/_signatures.py::get_exclude_keywords</code></span><pre><span class="d-del">- if not (num_pos_only == 0):   (injected bug)</span><span class="d-add">+ if num_pos_only == 0:   (original)</span></pre>retriever rank None of 20 · ranker position not in top 5 · patched the right function <span class="pill bad">no</span> · exact restore <span class="pill bad">no</span></div><h2>Trace</h2><div class="card"><div class="step"><div class="tag">reproduce<div class="meta">+0.41s</div></div><div>2 failing test(s) · 2 failed, 184 passed, 1 skipped, 1 deselected · 0.41s<details><summary>failing tests and errors</summary><pre>toolz/tests/test_signatures.py::test_is_valid
+toolz/tests/test_signatures.py::test_is_partial</pre><b>toolz/tests/test_signatures.py::test_is_valid</b><pre>E   AssertionError: assert False
+E    +  where False = &lt;function _is_valid_args at 0x0000023A74A4C9A0&gt;(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1})</pre><b>toolz/tests/test_signatures.py::test_is_partial</b><pre>E   AssertionError: assert False is True
+E    +  where False = &lt;function _is_partial_args at 0x0000023A74A4CAE0&gt;(&lt;class &#x27;functools.partial&#x27;&gt;, (), {&#x27;func&#x27;: 1})</pre></details></div></div><div class="step"><div class="tag">trace<div class="meta">+0.75s</div></div><div>re-ran 1 test file(s) with the trace plugin: 2 failing and 1 passing tests, 7 library functions ran in a failing test · 0.32s<br><span class="meta">toolz/tests/test_signatures.py</span></div></div><div class="step"><div class="tag">retrieve<div class="meta">+0.75s</div></div><div>161 functions indexed, 4 reachable from <code>toolz/tests/test_signatures.py::test_is_valid</code> in the static call graph. Kept 20 candidates, ranked by spectrum score (Ochiai), call graph and BM25 break ties.<details><summary>candidates in retriever order</summary><ol class="cands"><li class=""><code>toolz/_signatures.py::_is_valid_args</code> <span class="meta">call depth 1 · Ochiai 0.71 (failing 1, passing 0)</span></li><li class=""><code>toolz/_signatures.py::check_valid</code> <span class="meta">call depth 1 · Ochiai 0.71 (failing 1, passing 0)</span></li><li class=""><code>toolz/_signatures.py::_is_partial_args</code> <span class="meta">call depth - · Ochiai 0.71 (failing 1, passing 0)</span></li><li class=""><code>toolz/functoolz.py::is_partial_args</code> <span class="meta">call depth - · Ochiai 0.71 (failing 1, passing 0)</span></li><li class=""><code>toolz/_signatures.py::check_partial</code> <span class="meta">call depth - · Ochiai 0.71 (failing 1, passing 0)</span></li><li class=""><code>toolz/__init__.py::__getattr__</code> <span class="meta">call depth - · Ochiai 0.71 (failing 1, passing 0)</span></li><li class=""><code>toolz/functoolz.py::_check_sigspec</code> <span class="meta">call depth - · Ochiai 0.50 (failing 1, passing 1)</span></li><li class=""><code>toolz/functoolz.py::curry.args</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::curry.func</code> <span class="meta">call depth 1 · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::_check_sigspec</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::curry.__init__</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::is_valid_args</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::curry._should_curry</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/itertoolz.py::diff</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::memoize</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::memoize.&lt;locals&gt;.memof</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/functoolz.py::apply</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/sandbox/parallel.py::fold</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/_signatures.py::expand_sig</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 0)</span></li><li class=""><code>toolz/_signatures.py::_num_required_args</code> <span class="meta">call depth - · Ochiai 0.00 (failing 0, passing 1)</span></li></ol></details></div></div><div class="step"><div class="tag">rank<div class="meta">+0.75s</div></div><div><span class="meta">spectrum order kept (no model call)</span><ol class="cands"><li class=""><code>toolz/_signatures.py::_is_valid_args</code></li><li class=""><code>toolz/_signatures.py::check_valid</code></li><li class=""><code>toolz/_signatures.py::_is_partial_args</code></li><li class=""><code>toolz/functoolz.py::is_partial_args</code></li><li class=""><code>toolz/_signatures.py::check_partial</code></li></ol></div></div><div class="step"><div class="tag">read<div class="meta">+2.83s</div></div><div><span class="meta">turn 1 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2537 in / 153 out · 2.06s · $0.00019</span><p>read <code>toolz/_signatures.py::_is_valid_args</code> </p><p>The first failing test `test_is_valid` asserts that `_is_valid_args(lambda x: None)` returns `None` (incomplete), but the current implementation returns `None` only when the function is not in `signatures`. Since `lambda x: None` is likely registered in `signatures`, the function proceeds to evaluate `any(check_valid(sig, args, kwargs) for sig in sigs)`, which returns a boolean (True/False) instead of `None`. This mismatch causes the assertion to fail. The logic must be adjusted to return `None` when the function is incomplete or when the validation result is inconclusive.</p></div></div><div class="step"><div class="tag">patch<div class="meta">+6.34s</div></div><div><span class="meta">turn 2 · NVIDIA-Nemotron-3-Nano-30B-A3B · 2837 in / 304 out · 3.2s · $0.00024</span><p>The test expects `_is_valid_args(lambda x: None)` to return `None` when the function is incomplete. The current implementation uses `any(...)` which returns a boolean, causing the assertion to fail. By checking if there&#x27;s only one signature, we can return the direct result of `check_valid`, which may be `None` (incomplete), `True`, or `False`. This preserves the expected behavior for incomplete functions while maintaining correctness for multiple signatures.</p><pre class="diff"><span class="dl d-hdr">--- a/toolz/_signatures.py</span><span class="dl d-hdr">+++ b/toolz/_signatures.py</span><span class="dl d-hdr">@@ -693,4 +693,6 @@</span><span class="dl ">         return None</span><span class="dl ">     sigs = signatures[func]</span><span class="dl d-add">+    if len(sigs) == 1:</span><span class="dl d-add">+        return check_valid(sigs[0], args, kwargs)</span><span class="dl ">     return any(check_valid(sig, args, kwargs) for sig in sigs)</span><span class="dl "> </span></pre><p>tests: <span class="pill bad">2 failing (target tests)</span> <span class="meta">2 failed</span></p><pre>toolz/tests/test_signatures.py::test_is_valid
+toolz/tests/test_signatures.py::test_is_partial</pre></div></div><div class="step"><div class="tag">read<div class="meta">+22.98s</div></div><div><span class="meta">turn 3 · nemotron-3-super-120b-a12b · 3342 in / 2644 out · 16.64s · $0.00338</span><p>read <code>toolz/_signatures.py::check_partial</code> </p><p>We need to examine check_partial because the second failing test involves _is_partial_args, which uses check_partial. Understanding its behavior may reveal why it returns False for functools.partial with no args and kwargs={&#x27;func&#x27;:1}.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We need to look at the actual error again:
+
+For test_is_valid:
+    E   AssertionError: assert False
+    E    +  where False = &lt;function _is_valid_args at 0x...&gt;(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1})
+
+So the call was: _is_valid_args(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1}) returned False, but the test expected something else? Let&#x27;s see the test code snippet provided earlier.
+
+From the test_is_valid function (we saw part of it). It had:
+
+    f = builtins.abs
+    ...
+    # later
+    f = builtins.complex
+    ...
+    f = builtins.int
+    ...
+    f = builtins.map
+    ...
+    f = builtins.min
+    ...
+    f = builtins.range
+    ...
+
+But the error mentions functools.partial. So maybe there is a part of the test we didn&#x27;t see that tests functools.partial.
+
+Let&#x27;s look at the test file more completely? We don&#x27;t have it, but we can infer.
+
+The test_is_valid function likely includes a check for functools.partial. The error says:
+
+    assert check_valid(...) is False   (or maybe it expects True?)
+
+Actually the error says: AssertionError: assert False
+
+Meaning the condition that was asserted was False, and it failed because it was False? Wait: &quot;assert False&quot; means the assertion is asserting that the expression is True, but it got False, so the assertion fails.
+
+So the line in the test was something like:
+
+    assert check_valid(...)   # expecting True
+
+but it got False.
+
+Specifically: _is_valid_args(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1}) returned False, but the test</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+44.82s</div></div><div><span class="meta">turn 4 · nemotron-3-super-120b-a12b · 7274 in / 4193 out · 21.85s · $0.00596</span><p>read <code>toolz/functoolz.py::is_partial_args</code> </p><p>Now we need to look at is_partial_args in toolz/functoolz.py since check_partial delegates to it. The test failure suggests that is_partial_args is returning False when it should return True for functools.partial with no positional args and kwargs={&#x27;func&#x27;:1}. This will help us understand whether the issue lies in how arguments are padded or processed before delegation.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have two failing tests:
+
+1. test_is_valid: 
+   - It calls `_is_valid_args(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1})` and expects it to be truthy? Actually the test says:
+        E   AssertionError: assert False
+        E    +  where False = &lt;function _is_valid_args at 0x...&gt;(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1})
+   So the call returned False, but the test expected it to be true (or at least not false). Looking at the test code snippet for test_is_valid, we don&#x27;t see the exact line that caused the failure, but we can infer from the error that it was expecting a truthy value.
+
+2. test_is_partial:
+   - It calls `_is_partial_args(&lt;class &#x27;functools.partial&#x27;&gt;, (), {&#x27;func&#x27;: 1})` and expects True, but got False.
+
+Both failures involve `functools.partial` and the kwargs `{&#x27;func&#x27;: 1}`.
+
+Let&#x27;s look at the signatures for `functools.partial` in the registry. We don&#x27;t have the signatures dictionary, but we can infer that the signature for `functools.partial` might be something like:
+
+   func: the function to partialize
+   args: positional arguments
+   keywords: keyword arguments
+
+But note: the test passes `args=(1,)` and `kwargs={&#x27;func&#x27;: 1}`. This is trying to set the `func` keyword argument to 1? That doesn&#x27;t make sense because `func` is a positional-only or required argument? Actually, `functools.partial` is defined as:
+
+   partial(func, /, *args, **keywords)
+
+So the first argument is positional-only (or at least, it&#x27;s the first parameter). In the test, they are passin</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+67.63s</div></div><div><span class="meta">turn 5 · nemotron-3-super-120b-a12b · 7852 in / 4183 out · 22.78s · $0.00612</span><p>read <code>toolz/functoolz.py::_check_sigspec</code> </p><p>We need to inspect _check_sigspec in toolz/functoolz.py because it is called by is_partial_args and determines whether to delegate to the registry (_sigs._is_partial_args) or proceed with sigspec binding. This could explain why the function is not behaving as expected for functools.partial.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have two failing tests:
+
+1. test_is_valid: 
+   - For `functools.partial` with args=(1,) and kwargs={&#x27;func&#x27;:1}, the function `_is_valid_args` returns False, but the test expects it to be truthy (or at least not False? Actually the test does: `assert check_valid(f, 1)` where f is abs, so it expects True. But in the error we see: 
+        AssertionError: assert False
+        where False = &lt;function _is_valid_args at ...&gt;(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1})
+   So the test is calling `_is_valid_args` on `functools.partial` with args=(1,) and kwargs={&#x27;func&#x27;:1} and getting False, but expects a truthy value.
+
+2. test_is_partial:
+   - For `functools.partial` with args=() and kwargs={&#x27;func&#x27;:1}, the function `_is_partial_args` returns False, but the test expects True (because it does `assert _is_partial_args(...)`).
+
+Looking at the code:
+
+For `_is_valid_args` (candidate 1):
+   It returns None if func not in signatures, else it returns any(check_valid(sig, args, kwargs) for sig in signatures[func])
+
+For `check_valid` (candidate 2):
+   It tries to call func(*args, **kwargs) and returns True if no TypeError, else False.
+
+For `_is_partial_args` (candidate 3):
+   Similar to `_is_valid_args` but uses `check_partial`.
+
+For `check_partial` (candidate 5):
+   It pads args with None if there are too few positional-only args, then removes keyword-excluded items, then calls `is_partial_args` (candidate 4).
+
+For `is_partial_args` (candidate 4):
+   It first calls `_check_sigspec` (which</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+90.98s</div></div><div><span class="meta">turn 6 · nemotron-3-super-120b-a12b · 8678 in / 4203 out · 23.34s · $0.00639</span><p>read <code>toolz/_signatures.py::check_valid</code> </p><p>We need to re-examine check_valid because the first failing test shows that _is_valid_args(functools.partial, (1,), {&#x27;func&#x27;: 1}) returns False but should return True. This suggests that check_valid is incorrectly rejecting valid partial argument combinations. Since check_valid attempts to call func(*args, **kwargs), it may be failing due to how functools.partial handles unexpected keyword arguments like &#x27;func&#x27;.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have two failing tests:
+
+1. test_is_valid: 
+   - For `functools.partial` with args=(1,) and kwargs={&#x27;func&#x27;: 1}, the function `_is_valid_args` returns False, but the test expects it to be truthy (or at least not False? Actually the test does: `assert check_valid(f, 1)` where f is the partial, so it expects True).
+
+2. test_is_partial:
+   - For `functools.partial` with args=() and kwargs={&#x27;func&#x27;: 1}, the function `_is_partial_args` returns False, but the test expects True.
+
+Looking at the code:
+
+For `_is_valid_args` (candidate 1):
+   It returns None if func not in signatures, else it returns any(check_valid(sig, args, kwargs) for sig in signatures[func]).
+
+For `functools.partial`, we assume it is in signatures. Then we call check_valid on each signature.
+
+In check_valid (candidate 2):
+   It takes a sig (which is a tuple: num_pos_only, func, keyword_exclude, sigspec).
+   Then it does:
+      if len(args) &lt; num_pos_only: return False
+      if keyword_exclude: remove those keys from kwargs
+      then try: func(*args, **kwargs) -&gt; return True, except TypeError: return False.
+
+So for the first test: 
+   f = functools.partial (with some func, say abs, and one argument 1 already bound? Actually the test does: 
+        f = builtins.abs
+        ... then later: 
+        f = functools.partial(abs, 1)   ??? 
+
+But wait, the test in test_is_valid does not show the partial case. However, the error message says:
+   AssertionError: assert False
+   where False = &lt;function _is_valid_args at ...&gt;</pre></details></div></div><div class="step"><div class="tag">patch<div class="meta">+118.16s</div></div><div><span class="meta">turn 7 · nemotron-3-super-120b-a12b · 9356 in / 4614 out · 26.86s · $0.00696</span><p>The test failure indicates that _is_valid_args(functools.partial, (1,), {&#x27;func&#x27;: 1}) returns False when it should return True. The current check_valid catches only TypeError, but functools.partial may raise other exceptions (like AttributeError or KeyError) when given unexpected keywords such as &#x27;func&#x27;. By catching all Exceptions and returning False, we ensure that any error during invocation is treated as an invalid argument combination, which aligns with the test expectations. However, note that the test expects this specific case to be valid, so this patch may not be correct — but given the constraints, we must make check_valid more permissive. Actually, upon reconsideration: the issue might be that &#x27;func&#x27; is a valid parameter for functools.partial, so the call should succeed. The real problem is that the signature for functools.partial in the registry may not include &#x27;func&#x27; as a keyword argument. But since we cannot modify the registry, we must adjust check_valid to not fail on unexpected keywords if the underlying function can accept them. However, the safest minimal change is to catch Exception instead of just TypeError to avoid false negatives.</p><pre class="diff"><span class="dl d-hdr">--- a/toolz/_signatures.py</span><span class="dl d-hdr">+++ b/toolz/_signatures.py</span><span class="dl d-hdr">@@ -686,4 +686,6 @@</span><span class="dl ">     except TypeError:</span><span class="dl ">         return False</span><span class="dl d-add">+    except Exception:</span><span class="dl d-add">+        return False</span><span class="dl "> </span><span class="dl "> </span></pre><p>tests: <span class="pill bad">2 failing (target tests)</span> <span class="meta">2 failed</span></p><pre>toolz/tests/test_signatures.py::test_is_valid
+toolz/tests/test_signatures.py::test_is_partial</pre><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have two failing tests:
+
+1. test_is_valid: 
+   - For `functools.partial` with args=(1,) and kwargs={&#x27;func&#x27;: 1}, `_is_valid_args` returns False but the test expects True (or at least not False? Actually the test says: `assert check_valid(f, 1)` where f is builtins.abs, but the error shows it&#x27;s testing `_is_valid_args(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1})` and getting False.
+
+   Looking at the test code snippet for test_is_valid, we see:
+   ```
+   f = builtins.abs
+   assert check_valid(f) is incomplete
+   assert check_valid(f, 1)
+   ...
+   ```
+   But the error is about `_is_valid_args` being called with `functools.partial`. This suggests that the test is also checking the registry for `functools.partial`? Actually, the test uses a parameter `check_valid=_is_valid_args` and then wraps it. So the test is using `_is_valid_args` directly.
+
+   The error: 
+   ```
+   AssertionError: assert False
+   E    +  where False = &lt;function _is_valid_args at 0x...&gt;(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1})
+   ```
+
+   So the test expects that `_is_valid_args(functools.partial, (1,), {&#x27;func&#x27;: 1})` should be truthy (non-False and non-None?) but it returns False.
+
+2. test_is_partial:
+   - For `functools.partial` with args=() and kwargs={&#x27;func&#x27;: 1}, `_is_partial_args` returns False but the test expects True.
+
+Let&#x27;s focus on the first failure: `_is_valid_args(functools.partial, (1,), {&#x27;func&#x27;: 1})` returns False.
+
+In `_is_valid_args`:
+   - We look up `func` (which is `functools.parti</pre></details></div></div><div class="step"><div class="tag">read<div class="meta">+145.14s</div></div><div><span class="meta">turn 8 · nemotron-3-super-120b-a12b · 10796 in / 4222 out · 26.98s · $0.00704</span><p>read <code>toolz/_signatures.py::_is_partial_args</code> </p><p>We need to examine _is_partial_args because the second failing test involves it directly. The test shows that _is_partial_args(functools.partial, (), {&#x27;func&#x27;: 1}) returns False but should return True. This function delegates to check_partial via any(), so understanding its logic is key. We already saw check_partial and is_partial_args, but we must confirm whether the issue lies in how _is_partial_args handles the case when there are no positional arguments and kwargs contains &#x27;func&#x27;.</p><details><summary>model reasoning (excerpt)</summary><pre class="thought">We have two failing tests:
+1. test_is_valid: _is_valid_args(&lt;class &#x27;functools.partial&#x27;&gt;, (1,), {&#x27;func&#x27;: 1}) returns False, expected True.
+2. test_is_partial: _is_partial_args(&lt;class &#x27;functools.partial&#x27;&gt;, (), {&#x27;func&#x27;: 1}) returns False, expected True.
+
+We&#x27;ve already looked at _is_valid_args and check_valid. The issue seems to be that when we call check_valid for functools.partial with args=(1,) and kwargs={&#x27;func&#x27;:1}, it returns False.
+
+Let&#x27;s think about what the signature for functools.partial might be in the registry. We don&#x27;t have the registry, but we can infer.
+
+The function functools.partial has a signature: partial(func, /, *args, **keywords). So it requires at least one positional argument (func). Then it can take any number of additional positional and keyword arguments.
+
+In the test, we are calling _is_valid_args(partial, (1,), {&#x27;func&#x27;:1}). This means:
+- We are providing one positional argument: 1.
+- We are providing a keyword argument: func=1.
+
+But note: the first parameter of partial is &#x27;func&#x27;, which is positional-only (indicated by the &#x27;/&#x27; in the signature above). So if we pass 1 as the first positional argument, that should satisfy the &#x27;func&#x27; parameter. Then we are also trying to pass &#x27;func&#x27; as a keyword argument. This would be passing the same argument twice, which is invalid and should cause a TypeError.
+
+However, the test expects this to be valid? Let&#x27;s look at the test again:
+
+In test_is_valid, we have:
+    f = builtins.abs
+    ... # some assertions
+    f = bui</pre></details></div></div></div></main></body></html>
